@@ -76,6 +76,7 @@ export default {
     },
   ],
   'POST /api/login/account': (req, res) => {
+    console.log(req.body)
     const { password, userName, type } = req.body;
 
     if (password === 'ant.design' && userName === 'admin') {

@@ -11,7 +11,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Ant Design Pro',
+  title: 'CSGO后台管理',
   pwa: false,
   iconfontUrl: '',
 };

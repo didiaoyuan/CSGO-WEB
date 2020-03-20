@@ -135,6 +135,12 @@ export default {
               component: './ListTableList',
             },
             {
+              name: '个人中心',
+              icon: 'smile',
+              path: '/accountcenter',
+              component: './AccountCenter',
+            },
+            {
               component: './404',
             },
           ],
