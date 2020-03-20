@@ -32,11 +32,11 @@ export default {
     },
   },
   pre: {
-    '/api/': {
-      target: 'your pre url',
+    '/my/api/': {
+      target: 'http://localhost:8089/page',
       changeOrigin: true,
       pathRewrite: {
-        '^': '',
+        '^/my/api/': '',
       },
     },
   },
