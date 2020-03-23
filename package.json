@@ -31,7 +31,11 @@
     "tsc": "tsc",
     "ui": "umi ui"
   },
-  "husky": { "hooks": { "pre-commit": "npm run lint-staged" } },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
+  },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
@@ -49,12 +53,14 @@
     "@ant-design/pro-layout": "^5.0.0",
     "@ant-design/pro-table": "^2.0.0",
     "@antv/data-set": "^0.11.1",
+    "@types/react-router": "^5.1.4",
     "antd": "^4.0.0-rc.1",
     "classnames": "^2.2.6",
     "dva": "^2.6.0-beta.16",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "numeral": "^2.0.6",
+    "nzh": "^1.0.4",
     "omit.js": "^1.0.2",
     "path-to-regexp": "2.4.0",
     "qs": "^6.9.0",
@@ -104,8 +110,12 @@
     "umi-plugin-pro": "^1.0.2",
     "umi-types": "^0.5.9"
   },
-  "optionalDependencies": { "puppeteer": "^2.0.0" },
-  "engines": { "node": ">=10.0.0" },
+  "optionalDependencies": {
+    "puppeteer": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "checkFiles": [
     "src/**/*.js*",
     "src/**/*.ts*",

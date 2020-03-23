@@ -6,7 +6,7 @@ import moment from 'moment';
 import NoticeIcon from '../NoticeIcon';
 import styles from './index.less';
 
-class GlobalHeaderRight extends Component {
+class MyNoticeIconView extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
@@ -150,4 +150,4 @@ export default connect(({ user, global, loading }) => ({
   fetchingMoreNotices: loading.effects['global/fetchMoreNotices'],
   fetchingNotices: loading.effects['global/fetchNotices'],
   notices: global.notices,
-}))(GlobalHeaderRight);
+}))(MyNoticeIconView);
