@@ -1,14 +1,31 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Card, List, Typography } from 'antd';
 import React, { Component } from 'react';
+
+import { Dispatch } from 'redux';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
+import { StateType } from './model';
+import { CardListItemDataType } from './data.d';
 import styles from './style.less';
 
 const { Paragraph } = Typography;
 
-class ListCardList extends Component {
+interface ListCardListProps {
+  listCardList: StateType;
+  dispatch: Dispatch<any>;
+  loading: boolean;
+}
+interface ListCardListState {
+  visible: boolean;
+  done: boolean;
+  current?: Partial<CardListItemDataType>;
+}
 
+class ListCardList extends Component<
+  ListCardListProps,
+  ListCardListState
+> {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -20,16 +37,15 @@ class ListCardList extends Component {
   }
 
   render() {
-
     const {
       listCardList: { list },
-      visible,
       loading,
     } = this.props;
+
     const content = (
       <div className={styles.pageHeaderContent}>
         <p>
-          分类管理说明：蚂蚁金服务设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，
+          段落示意：蚂蚁金服务设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，
           提供跨越设计与开发的体验解决方案。
         </p>
         <div className={styles.contentLink}>
@@ -48,28 +64,23 @@ class ListCardList extends Component {
         </div>
       </div>
     );
+
     const extraContent = (
       <div className={styles.extraImg}>
         <img
-          alt="这是一个标题1"
+          alt="这是一个标题"
           src="https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png"
         />
       </div>
     );
-    const nullData = {};
+    const nullData: Partial<CardListItemDataType> = {};
     return (
       <PageHeaderWrapper content={content} extraContent={extraContent}>
         <div className={styles.cardList}>
-          <List
+          <List<Partial<CardListItemDataType>>
             rowKey="id"
             loading={loading}
-            grid={{
-              gutter: 24,
-              lg: 3,
-              md: 2,
-              sm: 1,
-              xs: 1,
-            }}
+            grid={{ gutter: 24, lg: 3, md: 2, sm: 1, xs: 1 }}
             dataSource={[nullData, ...list]}
             renderItem={item => {
               if (item && item.id) {
@@ -78,18 +89,13 @@ class ListCardList extends Component {
                     <Card
                       hoverable
                       className={styles.card}
-                      actions={[<a key="option1">更新</a>, <a key="option2">删除</a>]}
+                      actions={[<a key="option1">操作一</a>, <a key="option2">操作二</a>]}
                     >
                       <Card.Meta
                         avatar={<img alt="" className={styles.cardAvatar} src={item.avatar} />}
                         title={<a>{item.title}</a>}
                         description={
-                          <Paragraph
-                            className={styles.item}
-                            ellipsis={{
-                              rows: 3,
-                            }}
-                          >
+                          <Paragraph className={styles.item} ellipsis={{ rows: 3 }}>
                             {item.description}
                           </Paragraph>
                         }
@@ -98,11 +104,10 @@ class ListCardList extends Component {
                   </List.Item>
                 );
               }
-
               return (
                 <List.Item>
-                  <Button type="dashed" className={styles.newButton} onClick={this.showModal}>
-                    <PlusOutlined /> 新增分类
+                  <Button type="dashed" className={styles.newButton}>
+                    <PlusOutlined /> 新增产品
                   </Button>
                 </List.Item>
               );
@@ -114,7 +119,17 @@ class ListCardList extends Component {
   }
 }
 
-export default connect(({ listCardList, loading }) => ({
-  listCardList,
-  loading: loading.models.listCardList,
-}))(ListCardList);
+export default connect(
+  ({
+    listCardList,
+    loading,
+  }: {
+    listCardList: StateType;
+    loading: {
+      models: { [key: string]: boolean };
+    };
+  }) => ({
+    listCardList,
+    loading: loading.models.listCardList,
+  }),
+)(ListCardList);

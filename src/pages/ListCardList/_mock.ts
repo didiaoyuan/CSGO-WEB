@@ -1,4 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { Request, Response } from 'express';
+import { CardListItemDataType } from './data.d';
+
 const titles = [
   'Alipay',
   'Angular',
@@ -19,6 +22,7 @@ const avatars = [
   'https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png', // Vue
   'https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png', // Webpack
 ];
+
 const covers = [
   'https://gw.alipayobjects.com/zos/rmsportal/uMfMFlvUuceEyPpotzlq.png',
   'https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png',
@@ -32,6 +36,7 @@ const desc = [
   '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
   '那时候我只会想自己想要什么，从不想自己拥有什么',
 ];
+
 const user = [
   '付小小',
   '曲丽丽',
@@ -45,9 +50,8 @@ const user = [
   '仲尼',
 ];
 
-function fakeList(count) {
+function fakeList(count: number): CardListItemDataType[] {
   const list = [];
-
   for (let i = 0; i < count; i += 1) {
     list.push({
       id: `fake-list-${i}`,
@@ -55,7 +59,11 @@ function fakeList(count) {
       title: titles[i % 8],
       avatar: avatars[i % 8],
       cover: parseInt(`${i / 4}`, 10) % 2 === 0 ? covers[i % 4] : covers[3 - (i % 4)],
-      status: ['active', 'exception', 'normal'][i % 3],
+      status: ['active', 'exception', 'normal'][i % 3] as
+        | 'normal'
+        | 'exception'
+        | 'active'
+        | 'success',
       percent: Math.ceil(Math.random() * 50) + 50,
       logo: avatars[i % 8],
       href: 'https://ant.design',
@@ -94,9 +102,11 @@ function fakeList(count) {
   return list;
 }
 
-function getFakeList(req, res) {
+function getFakeList(req: Request, res: Response) {
   const params = req.query;
+
   const count = params.count * 1 || 20;
+
   const result = fakeList(count);
   return res.json(result);
 }

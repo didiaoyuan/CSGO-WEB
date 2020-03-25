@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { FC, useRef, useState, useEffect } from 'react';
 import { DownOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   Avatar,
@@ -14,18 +14,32 @@ import {
   Radio,
   Row,
 } from 'antd';
+
 import { findDOMNode } from 'react-dom';
+import { Dispatch } from 'redux';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
 import moment from 'moment';
 import OperationModal from './components/OperationModal';
+import { StateType } from './model';
+import { BasicListItemDataType } from './data.d';
 import styles from './style.less';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { Search } = Input;
 
-const Info = ({ title, value, bordered }) => (
+interface ListBasicListProps {
+  listBasicList: StateType;
+  dispatch: Dispatch<any>;
+  loading: boolean;
+}
+
+const Info: FC<{
+  title: React.ReactNode;
+  value: React.ReactNode;
+  bordered?: boolean;
+}> = ({ title, value, bordered }) => (
   <div className={styles.headerInfo}>
     <span>{title}</span>
     <p>{value}</p>
@@ -33,7 +47,11 @@ const Info = ({ title, value, bordered }) => (
   </div>
 );
 
-const ListContent = ({ data: { owner, createdAt, percent, status } }) => (
+const ListContent = ({
+  data: { owner, createdAt, percent, status },
+}: {
+  data: BasicListItemDataType;
+}) => (
   <div className={styles.listContent}>
     <div className={styles.listContentItem}>
       <span>Owner</span>
@@ -44,28 +62,22 @@ const ListContent = ({ data: { owner, createdAt, percent, status } }) => (
       <p>{moment(createdAt).format('YYYY-MM-DD HH:mm')}</p>
     </div>
     <div className={styles.listContentItem}>
-      <Progress
-        percent={percent}
-        status={status}
-        strokeWidth={6}
-        style={{
-          width: 180,
-        }}
-      />
+      <Progress percent={percent} status={status} strokeWidth={6} style={{ width: 180 }} />
     </div>
   </div>
 );
 
-export const ListBasicList = props => {
+export const ListBasicList: FC<ListBasicListProps> = props => {
   const addBtn = useRef(null);
   const {
     loading,
     dispatch,
     listBasicList: { list },
   } = props;
-  const [done, setDone] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [current, setCurrent] = useState(undefined);
+  const [done, setDone] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [current, setCurrent] = useState<Partial<BasicListItemDataType> | undefined>(undefined);
+
   useEffect(() => {
     dispatch({
       type: 'listBasicList/fetch',
@@ -74,6 +86,7 @@ export const ListBasicList = props => {
       },
     });
   }, [1]);
+
   const paginationProps = {
     showSizeChanger: true,
     showQuickJumper: true,
@@ -86,21 +99,19 @@ export const ListBasicList = props => {
     setCurrent(undefined);
   };
 
-  const showEditModal = item => {
+  const showEditModal = (item: BasicListItemDataType) => {
     setVisible(true);
     setCurrent(item);
   };
 
-  const deleteItem = id => {
+  const deleteItem = (id: string) => {
     dispatch({
       type: 'listBasicList/submit',
-      payload: {
-        id,
-      },
+      payload: { id },
     });
   };
 
-  const editAndDelete = (key, currentItem) => {
+  const editAndDelete = (key: string, currentItem: BasicListItemDataType) => {
     if (key === 'edit') showEditModal(currentItem);
     else if (key === 'delete') {
       Modal.confirm({
@@ -124,7 +135,9 @@ export const ListBasicList = props => {
     </div>
   );
 
-  const MoreBtn = ({ item }) => (
+  const MoreBtn: React.FC<{
+    item: BasicListItemDataType;
+  }> = ({ item }) => (
     <Dropdown
       overlay={
         <Menu onClick={({ key }) => editAndDelete(key, item)}>
@@ -142,13 +155,14 @@ export const ListBasicList = props => {
   const setAddBtnblur = () => {
     if (addBtn.current) {
       // eslint-disable-next-line react/no-find-dom-node
-      const addBtnDom = findDOMNode(addBtn.current);
+      const addBtnDom = findDOMNode(addBtn.current) as HTMLButtonElement;
       setTimeout(() => addBtnDom.blur(), 0);
     }
   };
 
   const handleDone = () => {
     setAddBtnblur();
+
     setDone(false);
     setVisible(false);
   };
@@ -158,16 +172,15 @@ export const ListBasicList = props => {
     setVisible(false);
   };
 
-  const handleSubmit = values => {
+  const handleSubmit = (values: BasicListItemDataType) => {
     const id = current ? current.id : '';
+
     setAddBtnblur();
+
     setDone(true);
     dispatch({
       type: 'listBasicList/submit',
-      payload: {
-        id,
-        ...values,
-      },
+      payload: { id, ...values },
     });
   };
 
@@ -193,20 +206,13 @@ export const ListBasicList = props => {
             className={styles.listCard}
             bordered={false}
             title="基本列表"
-            style={{
-              marginTop: 24,
-            }}
-            bodyStyle={{
-              padding: '0 32px 40px 32px',
-            }}
+            style={{ marginTop: 24 }}
+            bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
             <Button
               type="dashed"
-              style={{
-                width: '100%',
-                marginBottom: 8,
-              }}
+              style={{ width: '100%', marginBottom: 8 }}
               onClick={showModal}
               ref={addBtn}
             >
@@ -259,7 +265,18 @@ export const ListBasicList = props => {
     </div>
   );
 };
-export default connect(({ listBasicList, loading }) => ({
-  listBasicList,
-  loading: loading.models.listBasicList,
-}))(ListBasicList);
+
+export default connect(
+  ({
+    listBasicList,
+    loading,
+  }: {
+    listBasicList: StateType;
+    loading: {
+      models: { [key: string]: boolean };
+    };
+  }) => ({
+    listBasicList,
+    loading: loading.models.listBasicList,
+  }),
+)(ListBasicList);

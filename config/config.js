@@ -141,7 +141,7 @@ export default {
               ],
             },
             {
-              name: '文章管理',
+              name: ' 帖子管理',
               icon: 'SettingFilled',
               path: '/listsearcharticles',
               component: './ListSearchArticles',
@@ -155,6 +155,13 @@ export default {
               authority: ['user'],
             },
             {
+              name: '搜索管理',
+              icon: '管理员',
+              path: '/listsearch',
+              component: './ListSearch',
+              authority: ['user'],
+            },
+            {
               name: '标准管理',
               icon: 'smile',
               path: '/listbasiclist',
@@ -165,13 +172,6 @@ export default {
               icon: 'smile',
               path: '/listcardlist',
               component: './ListCardList',
-            },
-            {
-              name: '搜索管理',
-              icon: '管理员',
-              path: '/listsearch',
-              component: './ListSearch',
-              authority:['user'],
             },
             {
               name: 'list.table-list',

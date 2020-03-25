@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Button, Card, Col, Form, List, Row, Select, Tag} from 'antd';
-import {LoadingOutlined, StarOutlined, DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled, MessageOutlined} from '@ant-design/icons';
+import {LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons';
 import {connect} from 'dva';
 import ArticleListContent from './components/ArticleListContent';
 import StandardFormRow from './components/StandardFormRow';
@@ -9,56 +9,34 @@ import styles from './style.less';
 
 const {Option} = Select;
 const FormItem = Form.Item;
-const pageSize = 5;
-
+const pageSize = 3;
+let initNo = 0;
 const ListSearchArticles = ({dispatch, listSearchArticles: {list}, loading}) => {
   const [form] = Form.useForm();
   useEffect(() => {
     dispatch({
       type: 'listSearchArticles/fetch',
       payload: {
-        count: 5, // 加载条数
+        initCount:initNo, // 初始页码
+        count: 3, // 加载条数
       },
     });
   }, []);
 
-  // const setOwner = () => {
-  //   form.setFieldsValue({
-  //     owner: ['wzj'],
-  //   });
-  // };
-
+  const setOwner = () => {
+    form.setFieldsValue({
+      owner: ['wzj'],
+    });
+  };
   const fetchMore = () => {
     dispatch({
       type: 'listSearchArticles/appendFetch',
       payload: {
+        initCount: ++initNo,
         count: pageSize,
       },
     });
   };
-
-  const owners = [
-    {
-      id: 'wzj',
-      name: '我自己',
-    },
-    {
-      id: 'wjh',
-      name: '吴家豪',
-    },
-    {
-      id: 'zxx',
-      name: '周星星',
-    },
-    {
-      id: 'zly',
-      name: '赵丽颖',
-    },
-    {
-      id: 'ym',
-      name: '姚明',
-    },
-  ];
 
   const IconText = ({type, text}) => {
     switch (type) {
@@ -142,12 +120,13 @@ const ListSearchArticles = ({dispatch, listSearchArticles: {list}, loading}) => 
   );
 
   const likeClick =()=>{
-    dispatch({
-      // type: 'listSearchArticles/appendFetch',
-      payload: {
-        count: pageSize,
-      },
-    });
+    alert("hello");
+    // dispatch({
+    //   // type: 'listSearchArticles/appendFetch',
+    //   payload: {
+    //     count: pageSize,
+    //   },
+    // });
   }
   return (
     <>
@@ -192,20 +171,6 @@ const ListSearchArticles = ({dispatch, listSearchArticles: {list}, loading}) => 
               </TagSelect>
             </FormItem>
           </StandardFormRow>
-          {/*<StandardFormRow title="owner" grid>*/}
-          {/*  <FormItem name="owner" noStyle>*/}
-          {/*    <Select mode="multiple" placeholder="选择 owner">*/}
-          {/*      {owners.map(owner => (*/}
-          {/*        <Option key={owner.id} value={owner.id}>*/}
-          {/*          {owner.name}*/}
-          {/*        </Option>*/}
-          {/*      ))}*/}
-          {/*    </Select>*/}
-          {/*  </FormItem>*/}
-          {/*  <a className={styles.selfTrigger} onClick={setOwner}>*/}
-          {/*    只看自己的*/}
-          {/*  </a>*/}
-          {/*</StandardFormRow>*/}
           <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
               <Col xl={8} lg={10} md={12} sm={24} xs={24}>
@@ -269,11 +234,12 @@ const ListSearchArticles = ({dispatch, listSearchArticles: {list}, loading}) => 
                   <a className={styles.listItemMetaTitle} href={item.href}>
                     {item.title}
                   </a>
+
                 }
                 description={
                   <span>
                     <Tag>Ant Design</Tag>
-                    <Tag>设计语言</Tag>
+                    <Tag>React</Tag>
                     <Tag>蚂蚁金服</Tag>
                   </span>
                 }
