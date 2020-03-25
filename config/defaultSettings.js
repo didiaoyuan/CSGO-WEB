@@ -11,7 +11,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'CSGO后台管理',
+  title: 'CSGO技术分享',
   pwa: false,
   iconfontUrl: '',
 };

@@ -4,7 +4,8 @@ import slash from 'slash2';
 import themePluginConfig from './themePluginConfig';
 import proxy from './proxy';
 import webpackPlugin from './plugin.config';
-const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
+
+const {pwa} = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV } = process.env;
@@ -33,11 +34,11 @@ const plugins = [
       },
       pwa: pwa
         ? {
-            workboxPluginMode: 'InjectManifest',
-            workboxOptions: {
-              importWorkboxFrom: 'local',
-            },
-          }
+          workboxPluginMode: 'InjectManifest',
+          workboxOptions: {
+            importWorkboxFrom: 'local',
+          },
+        }
         : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
       // dll features https://webpack.js.org/plugins/dll-plugin/
       // dll: {
@@ -116,13 +117,21 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/dashboardworkplace',
+              redirect: '/listsearcharticles',
+            },
+            {
+              name: ' 帖子列表',
+              icon: 'HomeFilled',
+              path: '/listsearcharticles',
+              component: './ListSearchArticles',
+              authority: ['user','admin'],
             },
             {
               name: ' 工作台',
               icon: 'IdcardFilled',
-              path: '/dashboardworkplace',
+              path: '/dashboard/workplace',
               component: './DashboardWorkplace',
+              authority: ['admin'],
             },
             {
               path: '/admin',
@@ -140,16 +149,10 @@ export default {
                 },
               ],
             },
+
             {
-              name: ' 帖子管理',
-              icon: 'SettingFilled',
-              path: '/listsearcharticles',
-              component: './ListSearchArticles',
-              authority: ['admin'],
-            },
-            {
-              name: '板块管理',
-              icon: 'smile',
+              name: ' 板块列表',
+              icon: 'AppstoreFilled',
               path: '/listsearchboards',
               component: './ListSearchBoards',
               authority: ['user'],
@@ -162,16 +165,18 @@ export default {
               authority: ['user'],
             },
             {
-              name: '标准管理',
-              icon: 'smile',
+              name: ' 用户管理',
+              icon: 'IdcardFilled',
               path: '/listbasiclist',
               component: './ListBasicList',
+              authority: ['admin'],
             },
             {
-              name: '分类管理',
-              icon: 'smile',
+              name: ' 板块管理',
+              icon: 'AppstoreFilled',
               path: '/listcardlist',
               component: './ListCardList',
+              authority: ['admin'],
             },
             {
               name: 'list.table-list',
@@ -192,6 +197,13 @@ export default {
               icon: 'smile',
               path: '/accountsettings',
               component: './AccountSettings',
+              authority: ['user'],
+            },
+            {
+              name: '详情页面',
+              icon: 'smile',
+              path: '/detailpage',
+              component: './DetailPage',
               authority: ['user'],
             },
             {
