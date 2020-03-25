@@ -38,10 +38,9 @@ const Model = {
         router.replace(redirect || '/');
       }
     },
-
     logout() {
       const { redirect } = getPageQuery(); // Note: There may be security issues, please note
-
+      setAuthority("guest"); // todo:清除权限
       if (window.location.pathname !== '/user/login' && !redirect) {
         router.replace({
           pathname: '/user/login',

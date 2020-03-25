@@ -116,18 +116,18 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/dashboardworkplace',
             },
             {
-              path: '/welcome',
-              name: 'welcome',
-              icon: 'smile',
-              component: './Welcome',
+              name: ' 工作台',
+              icon: 'IdcardFilled',
+              path: '/dashboardworkplace',
+              component: './DashboardWorkplace',
             },
             {
               path: '/admin',
               name: 'admin',
-              icon: 'crown',
+              icon: 'CrownFilled',
               component: './Admin',
               authority: ['admin'],
               routes: [
@@ -141,16 +141,58 @@ export default {
               ],
             },
             {
+              name: '文章管理',
+              icon: 'SettingFilled',
+              path: '/listsearcharticles',
+              component: './ListSearchArticles',
+              authority: ['admin'],
+            },
+            {
+              name: '板块管理',
+              icon: 'smile',
+              path: '/listsearchboards',
+              component: './ListSearchBoards',
+              authority: ['user'],
+            },
+            {
+              name: '标准管理',
+              icon: 'smile',
+              path: '/listbasiclist',
+              component: './ListBasicList',
+            },
+            {
+              name: '分类管理',
+              icon: 'smile',
+              path: '/listcardlist',
+              component: './ListCardList',
+            },
+            {
+              name: '搜索管理',
+              icon: '管理员',
+              path: '/listsearch',
+              component: './ListSearch',
+              authority:['user'],
+            },
+            {
               name: 'list.table-list',
               icon: 'table',
               path: '/list',
               component: './ListTableList',
+              authority: ['admin'],
             },
             {
               name: '个人中心',
               icon: 'smile',
               path: '/accountcenter',
               component: './AccountCenter',
+              authority: ['user'],
+            },
+            {
+              name: '个人设置',
+              icon: 'smile',
+              path: '/accountsettings',
+              component: './AccountSettings',
+              authority: ['user'],
             },
             {
               component: './404',
