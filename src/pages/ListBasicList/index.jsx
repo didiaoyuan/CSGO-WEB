@@ -178,73 +178,18 @@ export const ListBasicList = props => {
           <Card bordered={false}>
             <Row>
               <Col sm={8} xs={24}>
-                <Info title="我的待办" value="8个任务" bordered />
+                <Info title="我的用户" value="8个用户" bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="本周任务平均处理时间" value="32分钟" bordered />
+                <Info title="本周平均访问时间" value="6分钟" bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="本周完成任务数" value="24个任务" />
+                <Info title="本周新增用户数" value="2个用户" />
               </Col>
             </Row>
           </Card>
 
-          <Card
-            className={styles.listCard}
-            bordered={false}
-            title="基本列表"
-            style={{
-              marginTop: 24,
-            }}
-            bodyStyle={{
-              padding: '0 32px 40px 32px',
-            }}
-            extra={extraContent}
-          >
-            <Button
-              type="dashed"
-              style={{
-                width: '100%',
-                marginBottom: 8,
-              }}
-              onClick={showModal}
-              ref={addBtn}
-            >
-              <PlusOutlined />
-              添加
-            </Button>
 
-            <List
-              size="large"
-              rowKey="id"
-              loading={loading}
-              pagination={paginationProps}
-              dataSource={list}
-              renderItem={item => (
-                <List.Item
-                  actions={[
-                    <a
-                      key="edit"
-                      onClick={e => {
-                        e.preventDefault();
-                        showEditModal(item);
-                      }}
-                    >
-                      编辑
-                    </a>,
-                    <MoreBtn key="more" item={item} />,
-                  ]}
-                >
-                  <List.Item.Meta
-                    avatar={<Avatar src={item.logo} shape="square" size="large" />}
-                    title={<a href={item.href}>{item.title}</a>}
-                    description={item.subDescription}
-                  />
-                  <ListContent data={item} />
-                </List.Item>
-              )}
-            />
-          </Card>
         </div>
       </PageHeaderWrapper>
 

@@ -26,4 +26,5 @@ export interface ListItemDataType {
   message: number;
   content: string;
   members: Member[];
+  titleImg: string;
 }

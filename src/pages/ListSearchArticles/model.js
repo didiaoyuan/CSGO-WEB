@@ -1,4 +1,4 @@
-import { queryFakeList } from './service';
+import { queryTopicList } from './service';
 
 const Model = {
   namespace: 'listSearchArticles',
@@ -7,7 +7,7 @@ const Model = {
   },
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeList, payload);
+      const response = yield call(queryTopicList, payload);
       yield put({
         type: 'queryList',
         payload: Array.isArray(response) ? response : [],
@@ -15,7 +15,7 @@ const Model = {
     },
 
     *appendFetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeList, payload);
+      const response = yield call(queryTopicList, payload);
       yield put({
         type: 'appendList',
         payload: Array.isArray(response) ? response : [],
