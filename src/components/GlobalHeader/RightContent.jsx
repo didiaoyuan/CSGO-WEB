@@ -47,10 +47,13 @@ const GlobalHeaderRight = props => {
         //   //console.log('input', value);
         // }}
       />
-
-      {localStorage.getItem('antd-pro-authority')==='guest' ?
-        <><MyNoticeIconView /><Avatar /></>
-        :<>未登录</>
+      { JSON.parse(localStorage.getItem('antd-pro-authority'))[0] ==='guest' ?
+        <>未登录</>
+        :
+        <>
+          <MyNoticeIconView />
+          <Avatar />
+        </>
       }
       {REACT_APP_ENV && (
         <span>

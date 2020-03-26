@@ -158,7 +158,7 @@ export default {
             },
             {
               name: '搜索管理',
-              icon: '管理员',
+              icon: 'smile',
               path: '/listsearch',
               component: './ListSearch',
               authority: ['user'],

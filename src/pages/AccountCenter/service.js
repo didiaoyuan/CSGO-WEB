@@ -1,10 +1,12 @@
 import request from '@/utils/request';
 
-export async function queryCurrent() {
-  return request('/api/currentUser');
+export async function queryCurrent(params) {
+  return request('/my/api/currentUser',{
+    params,
+  });
 }
-export async function queryFakeList(params) {
-  return request('my/api/fake_list', {
+export async function queryMyList(params) {
+  return request('/my/api/listUserTopics', {
     params,
   });
 }

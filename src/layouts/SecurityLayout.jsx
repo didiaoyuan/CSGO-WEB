@@ -13,16 +13,16 @@ class SecurityLayout extends React.Component {
     this.setState({
       isReady: true,
     });
-    // const { dispatch } = this.props;
-    //
-    // if (dispatch) {
-    //   dispatch({
-    //     type: 'user/fetchCurrent',
-    //     payload:{
-    //       userId: localStorage.getItem('userId')? JSON.parse(localStorage.getItem('userId')):null,
-    //     },
-    //   });
-    // }
+    const { dispatch } = this.props;
+
+    if (dispatch) {
+      dispatch({
+        type: 'user/fetchCurrent',
+        payload:{
+          userId: localStorage.getItem('userId')? JSON.parse(localStorage.getItem('userId')):null,
+        },
+      });
+    }
   }
 
   render() {
@@ -43,7 +43,9 @@ class SecurityLayout extends React.Component {
     //   return <Redirect to={`/user/login?${queryString}`} />;
     // }
     // todo: 查看权限,权限如果是 guest
-    if(!isLogin){
+    // 一会首页currentUser 就为 null
+    const checkLogin = localStorage.getItem("antd-pro-authority")
+    if(!checkLogin){
       setAuthority('guest')
     }
     return children;

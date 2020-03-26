@@ -1,5 +1,5 @@
 import {
-  DownloadOutlined,
+  StarOutlined,
   EditOutlined,
   EllipsisOutlined,
   ShareAltOutlined,
@@ -94,8 +94,8 @@ const Applications = props => {
               paddingBottom: 20,
             }}
             actions={[
-              <Tooltip key="download" title="下载">
-                <DownloadOutlined />
+              <Tooltip key="download" title="取消关注">
+                <StarOutlined />
               </Tooltip>,
               <Tooltip title="编辑" key="edit">
                 <EditOutlined />

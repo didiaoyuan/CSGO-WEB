@@ -29,7 +29,7 @@ const operationTabList = [
     key: 'applications',
     tab: (
       <span>
-        应用{' '}
+        关注的板块{' '}
         <span
           style={{
             fontSize: 14,
@@ -78,7 +78,6 @@ class AccountCenter extends Component {
     inputVisible: false,
     inputValue: '',
     tabKey: 'articles',
-    currentUser:{},
   };
 
   input = undefined;
@@ -87,10 +86,15 @@ class AccountCenter extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'accountCenter/fetchCurrent',
-
+      payload:{
+        userId: JSON.parse(localStorage.getItem('userId')),
+      }
     });
     dispatch({
       type: 'accountCenter/fetch',
+      payload: {
+        userId: JSON.parse(localStorage.getItem('userId')),
+      }
     });
   }
 
