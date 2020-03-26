@@ -78,6 +78,7 @@ class AccountCenter extends Component {
     inputVisible: false,
     inputValue: '',
     tabKey: 'articles',
+    currentUser:{},
   };
 
   input = undefined;
@@ -86,6 +87,7 @@ class AccountCenter extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'accountCenter/fetchCurrent',
+
     });
     dispatch({
       type: 'accountCenter/fetch',

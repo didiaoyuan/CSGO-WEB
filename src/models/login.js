@@ -15,7 +15,8 @@ const Model = {
         type: 'changeLoginStatus',
         payload: response,
       }); // Login successfully
-
+      console.log(response.currentUser.userid);
+      localStorage.setItem('userId',response.currentUser.userid);
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -35,7 +36,7 @@ const Model = {
             return;
           }
         }
-        router.replace(redirect || '/');
+        router.replace(redirect || '/listsearcharticles');
       }
     },
     logout() {
@@ -53,8 +54,9 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
+      console.log(payload.currentAuthority)
       setAuthority(payload.currentAuthority);
-      return { ...state, status: payload.status, type: payload.type };
+      return { ...state, status: payload.status, type: payload.type,currentUser:payload.currentUser };
     },
   },
 };

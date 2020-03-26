@@ -113,18 +113,17 @@ export default {
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
-          routes: [
+          routes: [ // menu route
             {
               path: '/',
-              redirect: '/listsearcharticles',
+              redirect:'/listsearcharticles',
             },
             {
               name: ' 帖子列表',
               icon: 'HomeFilled',
               path: '/listsearcharticles',
               component: './ListSearchArticles',
-              authority: ['user','admin'],
+              authority: ['user','admin','guest'],
             },
             {
               name: ' 工作台',
@@ -155,7 +154,7 @@ export default {
               icon: 'AppstoreFilled',
               path: '/listsearchboards',
               component: './ListSearchBoards',
-              authority: ['user'],
+              authority: ['user','guest'],
             },
             {
               name: '搜索管理',
@@ -213,7 +212,7 @@ export default {
         },
         {
           component: './404',
-        },
+        }
       ],
     },
     {

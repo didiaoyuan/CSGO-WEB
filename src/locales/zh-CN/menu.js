@@ -49,4 +49,16 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.注册页':' 注册页',
+  'menu. 帖子列表':' 帖子列表',
+  'menu. 工作台':' 工作台',
+  'menu.admin':'admin',
+  'menu. 用户管理':' 用户管理',
+  'menu. 板块管理':' 板块管理',
+  'menu.详情页面':' 详情页面',
+  'menu.个人设置':' 个人设置',
+  'menu.个人中心':' 个人中心',
+  'menu.搜索管理':' 搜索管理',
+  'menu. 板块列表':' 板块列表',
+
 };

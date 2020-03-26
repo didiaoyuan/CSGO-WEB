@@ -4,7 +4,7 @@ export async function queryCurrent() {
   return request('/api/currentUser');
 }
 export async function queryFakeList(params) {
-  return request('/api/fake_list', {
+  return request('my/api/fake_list', {
     params,
   });
 }
