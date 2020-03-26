@@ -15,7 +15,9 @@ const handleAdd = async fields => {
   const hide = message.loading('正在添加');
 
   try {
-    await addRule({ ...fields });
+    await addRule({
+      desc: fields.desc,
+    });
     hide();
     message.success('添加成功');
     return true;
@@ -72,7 +74,6 @@ const handleRemove = async selectedRows => {
 };
 
 const TableList = () => {
-  const [sorter, setSorter] = useState('');
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const [stepFormValues, setStepFormValues] = useState({});
@@ -81,29 +82,20 @@ const TableList = () => {
     {
       title: '规则名称',
       dataIndex: 'name',
-      rules: [
-        {
-          required: true,
-          message: '规则名称为必填项',
-        },
-      ],
     },
     {
       title: '描述',
       dataIndex: 'desc',
-      valueType: 'textarea',
     },
     {
       title: '服务调用次数',
       dataIndex: 'callNo',
       sorter: true,
-      hideInForm: true,
       renderText: val => `${val} 万`,
     },
     {
       title: '状态',
       dataIndex: 'status',
-      hideInForm: true,
       valueEnum: {
         0: {
           text: '关闭',
@@ -128,7 +120,6 @@ const TableList = () => {
       dataIndex: 'updatedAt',
       sorter: true,
       valueType: 'dateTime',
-      hideInForm: true,
     },
     {
       title: '操作',
@@ -156,19 +147,9 @@ const TableList = () => {
         headerTitle="查询表格"
         actionRef={actionRef}
         rowKey="key"
-        onChange={(_, _filter, _sorter) => {
-          const sorterResult = _sorter;
-
-          if (sorterResult.field) {
-            setSorter(`${sorterResult.field}_${sorterResult.order}`);
-          }
-        }}
-        params={{
-          sorter,
-        }}
         toolBarRender={(action, { selectedRows }) => [
-          <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建
+          <Button icon={<PlusOutlined />} type="primary" onClick={() => handleModalVisible(true)}>
+            新建
           </Button>,
           selectedRows && selectedRows.length > 0 && (
             <Dropdown
@@ -213,25 +194,21 @@ const TableList = () => {
         columns={columns}
         rowSelection={{}}
       />
-      <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
-        <ProTable
-          onSubmit={async value => {
-            const success = await handleAdd(value);
+      <CreateForm
+        onSubmit={async value => {
+          const success = await handleAdd(value);
 
-            if (success) {
-              handleModalVisible(false);
+          if (success) {
+            handleModalVisible(false);
 
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
+            if (actionRef.current) {
+              actionRef.current.reload();
             }
-          }}
-          rowKey="key"
-          type="form"
-          columns={columns}
-          rowSelection={{}}
-        />
-      </CreateForm>
+          }
+        }}
+        onCancel={() => handleModalVisible(false)}
+        modalVisible={createModalVisible}
+      />
       {stepFormValues && Object.keys(stepFormValues).length ? (
         <UpdateForm
           onSubmit={async value => {

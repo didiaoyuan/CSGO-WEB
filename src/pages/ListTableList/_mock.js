@@ -1,35 +1,28 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { parse } from 'url';
-
 // mock tableListDataSource
-const genList = (current, pageSize) => {
-  const tableListDataSource = [];
+let tableListDataSource = [];
 
-  for (let i = 0; i < pageSize; i += 1) {
-    const index = (current - 1) * 10 + i;
-    tableListDataSource.push({
-      key: index,
-      disabled: i % 6 === 0,
-      href: 'https://ant.design',
-      avatar: [
-        'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-        'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-      ][i % 2],
-      name: `TradeCode ${index}`,
-      owner: '曲丽丽',
-      desc: '这是一段描述',
-      callNo: Math.floor(Math.random() * 1000),
-      status: Math.floor(Math.random() * 10) % 4,
-      updatedAt: new Date(),
-      createdAt: new Date(),
-      progress: Math.ceil(Math.random() * 100),
-    });
-  }
-
-  tableListDataSource.reverse();
-  return tableListDataSource;
-};
-
-let tableListDataSource = genList(1, 100);
+for (let i = 0; i < 10; i += 1) {
+  tableListDataSource.push({
+    key: i,
+    disabled: i % 6 === 0,
+    href: 'https://ant.design',
+    avatar: [
+      'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
+      'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
+    ][i % 2],
+    name: `TradeCode ${i}`,
+    title: `一个任务名称 ${i}`,
+    owner: '曲丽丽',
+    desc: '这是一段描述',
+    callNo: Math.floor(Math.random() * 1000),
+    status: Math.floor(Math.random() * 10) % 4,
+    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    progress: Math.ceil(Math.random() * 100),
+  });
+}
 
 function getRule(req, res, u) {
   let url = u;
@@ -39,9 +32,8 @@ function getRule(req, res, u) {
     url = req.url;
   }
 
-  const { current = 1, pageSize = 10 } = req.query;
   const params = parse(url, true).query;
-  let dataSource = [...tableListDataSource].slice((current - 1) * pageSize, current * pageSize);
+  let dataSource = tableListDataSource;
 
   if (params.sorter) {
     const s = params.sorter.split('_');
@@ -75,9 +67,15 @@ function getRule(req, res, u) {
     dataSource = dataSource.filter(data => data.name.includes(params.name || ''));
   }
 
+  let pageSize = 10;
+
+  if (params.pageSize) {
+    pageSize = parseInt(`${params.pageSize}`, 0);
+  }
+
   const result = {
     data: dataSource,
-    total: tableListDataSource.length,
+    total: dataSource.length,
     success: true,
     pageSize,
     current: parseInt(`${params.currentPage}`, 10) || 1,
@@ -103,45 +101,35 @@ function postRule(req, res, u, b) {
       break;
 
     case 'post':
-      (() => {
-        const i = Math.ceil(Math.random() * 10000);
-        const newRule = {
-          key: tableListDataSource.length,
-          href: 'https://ant.design',
-          avatar: [
-            'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-            'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-          ][i % 2],
-          name,
-          owner: '曲丽丽',
-          desc,
-          callNo: Math.floor(Math.random() * 1000),
-          status: Math.floor(Math.random() * 10) % 2,
-          updatedAt: new Date(),
-          createdAt: new Date(),
-          progress: Math.ceil(Math.random() * 100),
-        };
-        tableListDataSource.unshift(newRule);
-        return res.json(newRule);
-      })();
-
-      return;
+      const i = Math.ceil(Math.random() * 10000);
+      tableListDataSource.unshift({
+        key: i,
+        href: 'https://ant.design',
+        avatar: [
+          'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
+          'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
+        ][i % 2],
+        name: `TradeCode ${i}`,
+        title: `一个任务名称 ${i}`,
+        owner: '曲丽丽',
+        desc,
+        callNo: Math.floor(Math.random() * 1000),
+        status: Math.floor(Math.random() * 10) % 2,
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        progress: Math.ceil(Math.random() * 100),
+      });
+      break;
 
     case 'update':
-      (() => {
-        let newRule = {};
-        tableListDataSource = tableListDataSource.map(item => {
-          if (item.key === key) {
-            newRule = { ...item, desc, name };
-            return { ...item, desc, name };
-          }
+      tableListDataSource = tableListDataSource.map(item => {
+        if (item.key === key) {
+          return { ...item, desc, name };
+        }
 
-          return item;
-        });
-        return res.json(newRule);
-      })();
-
-      return;
+        return item;
+      });
+      break;
 
     default:
       break;
@@ -153,7 +141,7 @@ function postRule(req, res, u, b) {
       total: tableListDataSource.length,
     },
   };
-  res.json(result);
+  return res.json(result);
 }
 
 export default {
