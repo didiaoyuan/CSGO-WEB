@@ -1,4 +1,4 @@
-import { Tag } from 'antd';
+import { Tag,Button } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import Avatar from './AvatarDropdown';
@@ -48,7 +48,7 @@ const GlobalHeaderRight = props => {
         // }}
       />
       { JSON.parse(localStorage.getItem('antd-pro-authority'))[0] ==='guest' ?
-        <>未登录</>
+        <><a href="/user/login">登录</a></>
         :
         <>
           <MyNoticeIconView />

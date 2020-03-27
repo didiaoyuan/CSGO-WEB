@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
-import {Button, Card, Col, Form, List, Row, Select, Tag} from 'antd';
+import {Button, Card, List, Tag} from 'antd';
 import {LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons';
 import {connect} from 'dva';
 import ArticleListContent from './components/ArticleListContent';
-import StandardFormRow from './components/StandardFormRow';
-import TagSelect from './components/TagSelect';
 import styles from './style.less';
 
-const FormItem = Form.Item;
 const pageSize = 3;
 let initNo = 0;
-const ListSearchArticles = ({dispatch, listSearchArticles: {list}, loading}) => {
-  const [form] = Form.useForm();
+const ListSearchArticles = (
+  {
+    dispatch, listSearchArticles: {list}, loading}
+
+    ) => {
   useEffect(() => {
     dispatch({
       type: 'listSearchArticles/fetch',
@@ -76,19 +76,7 @@ const ListSearchArticles = ({dispatch, listSearchArticles: {list}, loading}) => 
     }
   };
 
-  const formItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 24,
-      },
-      md: {
-        span: 12,
-      },
-    },
-  };
+
   const loadMore = list.length > 0 && (
     <div
       style={{

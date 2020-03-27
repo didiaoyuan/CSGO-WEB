@@ -20,7 +20,7 @@ const operationTabList = [
             fontSize: 14,
           }}
         >
-          (8)
+          {/*(8)*/}
         </span>
       </span>
     ),
@@ -35,26 +35,12 @@ const operationTabList = [
             fontSize: 14,
           }}
         >
-          (8)
+          {/*(8)*/}
         </span>
       </span>
     ),
   },
-  {
-    key: 'projects',
-    tab: (
-      <span>
-        项目{' '}
-        <span
-          style={{
-            fontSize: 14,
-          }}
-        >
-          (8)
-        </span>
-      </span>
-    ),
-  },
+
 ];
 
 class AccountCenter extends Component {

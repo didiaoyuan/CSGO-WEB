@@ -1,9 +1,9 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { useState, useEffect } from 'react';
+import { Spin } from 'antd';
 import styles from './index.less';
 
 export default () => {
-  // 加载效果
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -11,8 +11,15 @@ export default () => {
     }, 3000);
   }, []);
   return (
-    <PageHeaderWrapper  className={styles.main}>
-      123
+    <PageHeaderWrapper content="这是一个新页面，从这里进行开发！" className={styles.main}>
+      <div
+        style={{
+          paddingTop: 100,
+          textAlign: 'center',
+        }}
+      >
+        <Spin spinning={loading} size="large" />
+      </div>
     </PageHeaderWrapper>
   );
 };

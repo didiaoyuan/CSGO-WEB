@@ -80,7 +80,7 @@ const TableList = () => {
   const actionRef = useRef();
   const columns = [
     {
-      title: '规则名称',
+      title: '用户名称',
       dataIndex: 'name',
     },
     {
@@ -116,7 +116,7 @@ const TableList = () => {
       },
     },
     {
-      title: '上次调度时间',
+      title: '创建时间',
       dataIndex: 'updatedAt',
       sorter: true,
       valueType: 'dateTime',
@@ -133,18 +133,18 @@ const TableList = () => {
               setStepFormValues(record);
             }}
           >
-            配置
+            修改
           </a>
           <Divider type="vertical" />
           <a href="">订阅警报</a>
         </>
       ),
     },
-  ];
+  ]; // 表格列名
   return (
     <PageHeaderWrapper>
       <ProTable
-        headerTitle="查询表格"
+        headerTitle="用户信息管理"
         actionRef={actionRef}
         rowKey="key"
         toolBarRender={(action, { selectedRows }) => [
@@ -174,22 +174,23 @@ const TableList = () => {
             </Dropdown>
           ),
         ]}
-        tableAlertRender={(selectedRowKeys, selectedRows) => (
-          <div>
-            已选择{' '}
-            <a
-              style={{
-                fontWeight: 600,
-              }}
-            >
-              {selectedRowKeys.length}
-            </a>{' '}
-            项&nbsp;&nbsp;
-            <span>
-              服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-            </span>
-          </div>
-        )}
+        // 他变了提示信息
+        // tableAlertRender={(selectedRowKeys, selectedRows) => (
+        //   <div>
+        //     已选择{' '}
+        //     <a
+        //       style={{
+        //         fontWeight: 600,
+        //       }}
+        //     >
+        //       {selectedRowKeys.length}
+        //     </a>{' '}
+        //     项&nbsp;&nbsp;
+        //     <span>
+        //       服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
+        //     </span>
+        //   </div>
+        // )}
         request={params => queryRule(params)}
         columns={columns}
         rowSelection={{}}

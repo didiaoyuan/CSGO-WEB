@@ -83,6 +83,10 @@ export default {
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
+      path: '/my/topicDetail',
+      component: './TopicDetail',
+    },
+    {
       path: '/user',
       component: '../layouts/UserLayout',
       routes: [
@@ -103,6 +107,7 @@ export default {
           path: '/user/register',
           component: './user/register',
         },
+
       ],
     },
     {
@@ -119,11 +124,17 @@ export default {
               redirect: '/listsearcharticles',
             },
             {
-              name: ' 帖子列表',
+              name: ' 首页',
               icon: 'HomeFilled',
               path: '/listsearcharticles',
               component: './ListSearchArticles',
               authority: ['user', 'admin', 'guest'],
+            },
+            {
+              name: '空白页面',
+              icon: 'smile',
+              path: '/userlistpage',
+              component: './UserListPage',
             },
             {
               name: ' 工作台',
@@ -151,6 +162,7 @@ export default {
               icon: 'IdcardFilled',
               path: '/listtablelist',
               component: './ListTableList',
+              authority: ['admin'],
             },
             {
               name: ' 板块管理',

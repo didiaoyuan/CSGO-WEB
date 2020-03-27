@@ -70,7 +70,7 @@ class BaseView extends Component {
         return currentUser.avatar;
       }
 
-      const url = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
+      const url = 'https://gw.alipayobjects.com/zos/rmsportal/ZiESqWwCXBRQoaPONSJe.png';
       return url;
     }
 
