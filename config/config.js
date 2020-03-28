@@ -83,10 +83,6 @@ export default {
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
-      path: '/my/topicDetail',
-      component: './TopicDetail',
-    },
-    {
       path: '/user',
       component: '../layouts/UserLayout',
       routes: [
@@ -144,21 +140,21 @@ export default {
               authority: ['admin'],
             },
             {
-              name: ' 板块列表',
+              name: '板块列表',
               icon: 'AppstoreFilled',
               path: '/listsearchboards',
               component: './ListSearchBoards',
               authority: ['user', 'guest'],
             },
             {
-              name: ' 搜索管理',
+              name: '搜索管理',
               icon: 'smile',
               path: '/listsearch',
               component: './ListSearch',
               authority: ['user'],
             },
             {
-              name: ' 分类管理',
+              name: '分类管理',
               icon: 'AppstoreFilled',
               path: '/listcardlist',
               component: './ListCardList',
@@ -181,18 +177,19 @@ export default {
             {
               name: '帖子管理',
               icon: 'FileTextFilled',
-              path: '/UserListPage',
-              component: './UserListPage',
+              path: '/TopicListPage',
+              component: './TopicListPage',
+              authority: ['admin'],
             },
             {
-              name: ' 用户管理',
+              name: '用户管理',
               icon: 'IdcardFilled',
-              path: '/userlisttable',
+              path: '/UserlistPage',
               component: './UserListTable',
               authority: ['admin'],
             },
             {
-              name: ' table',
+              name: 'table',
               icon: 'IdcardFilled',
               path: '/listtablelist',
               component: './ListTableList',

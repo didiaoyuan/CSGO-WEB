@@ -3,12 +3,16 @@ import {ExclamationCircleOutlined} from '@ant-design/icons';
 import React from 'react';
 import styles from './index.less';
 import {connect} from 'dva';
-import {Table, Tag, Modal, Button} from 'antd';
+import {Table, Tag, Modal, Button, Form, Input, InputNumber, Card} from 'antd';
 
-const { confirm } = Modal;
+const {confirm} = Modal;
+
 
 class UserListTable extends React.Component {
 
+  state = {
+    visible: false,
+  };
 
   componentDidMount() {
     const {dispatch} = this.props;
@@ -16,7 +20,9 @@ class UserListTable extends React.Component {
       type: 'userListTable/getUserTable',
     });
   }
+
   // 删除对话框函数
+
   showDeleteConfirm = (record) => {
     const {dispatch} = this.props;
     confirm({
@@ -43,50 +49,53 @@ class UserListTable extends React.Component {
 
   // 更新对话框
 
-  state = {
-    ModalText: 'Content of the modal',
-    visible: false,
-    confirmLoading: false,
-  };
 
-  showModal = (e) => {
+  showModal = () => {
     this.setState({
       visible: true,
     });
-    console.log("显示对话框信息", e)
   };
 
   handleOk = () => {
     this.setState({
-      ModalText: '正在删除ing...',
       confirmLoading: true,
     });
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false,
-      });
-    }, 2000);
-    // const {dispatch} = this.props;
-    // dispatch({
-    //   type: 'userListTable/',
-    //   payload: {
-    //     userId: 37,
-    //   }
-    // });
+
   };
 
   handleCancel = () => {
-    console.log('Clicked cancel button');
+    console.log('Clicked cancel');
     this.setState({
       visible: false,
     });
   };
 
+  aMethod=(param)=>{
+    console.log(param);
+
+    this.setState({
+      visible: false,
+      confirmLoading: false,
+      requestParam:param,
+    });
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'userListTable/updateUser',
+      payload: param
+    });
+  };
+
+  submitUpdate=()=>{
+    console.log(this.props.requestParam)
+  }
 
 
   render() {
-    const {visible, confirmLoading, ModalText} = this.state;
+    const {
+      visible,
+      confirmLoading,userInfo,requestParam
+    } = this.state;
+
     const {data} = this.props;
     const columns = [
       {
@@ -132,14 +141,17 @@ class UserListTable extends React.Component {
       {
         title: '操作',
         key: 'action',
-        render: (text,record) => (
+        render: (text, record) => (
           <span>
-        <Button type="primary" onClick={()=>{
+        <Button type="primary" onClick={() => {
+          this.setState({
+            userInfo: record,
+          });
           this.showModal(record)
-        }} style={{marginRight: 16}} >
+        }} style={{marginRight: 16}}>
           更新
         </Button>
-        <Button type="primary" onClick={()=>{
+        <Button type="primary" onClick={() => {
           this.showDeleteConfirm(record)
         }} danger>
           删除
@@ -148,25 +160,77 @@ class UserListTable extends React.Component {
         ),
       },
     ];
+    const layout = {
+      labelCol: {span: 8},
+      wrapperCol: {span: 16},
+    };
+    const validateMessages = {
+      required: 'This field is required!',
+      types: {
+        email: '不是邮箱格式!',
+      },
+      // number: {
+      //   range: 'Must be between ${min} and ${max}',
+      // },
+    };
 
-    // console.log("===", this.props.userListTable.data)
     return (
       <div>
-        <Modal
-          title="Title"
-          visible={visible}
-          onOk={this.handleOk}
-          confirmLoading={confirmLoading}
-          onCancel={this.handleCancel}
-        >
-          <p>{ModalText}</p>
-        </Modal>
-        <PageHeaderWrapper content="" className={styles.main}>
-          <div>
-            <Table columns={columns} dataSource={this.props.userListTable.data}
-                   pagination
+        <PageHeaderWrapper>
+          <Modal
+            title="更新用户信息"
+            visible={visible}
+            onOk={()=>{
+              this.handleOk()
+            }}
+            confirmLoading={confirmLoading}
+            onCancel={()=>{
+              this.handleCancel()
+            }}
+            footer={null}
+            destroyOnClose
+          >
+            <div>
+              <Form {...layout} name="nest-messages" validateMessages={validateMessages} onFinish={this.aMethod}>
+                <Form.Item name={['user', 'key']} label="key" >
+                  <Input placeholder={userInfo  && userInfo.key} />
+                </Form.Item>
+                <Form.Item name={['user', 'userName']} label="用户名称" rules={[{required: true}]}>
+                  <Input placeholder={userInfo  && userInfo.userName}/>
+                </Form.Item>
+                <Form.Item name={['user', 'credit']} label="积分">
+                  <InputNumber min={0} placeholder={userInfo  && userInfo.credit} rules={[{required: true}]} />
+                </Form.Item>
+                <Form.Item name={['user', 'userEmail']} label="邮箱" rules={[{type: 'email',required: true}]} >
+
+                  <Input placeholder={userInfo  && userInfo.userEmail}/>
+                </Form.Item>
+                <Form.Item name={['user', 'mobile']} label="电话" rules={[{required: true}]}>
+                  <Input placeholder={userInfo  && userInfo.mobile}/>
+                </Form.Item>
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                  <Button type="primary" htmlType="submit" onClick={()=>{
+                    this.submitUpdate(requestParam)
+                  }}>
+                    确定
+                  </Button>
+                </Form.Item>
+              </Form>
+            </div>
+          </Modal>
+          <Card
+            style={{
+              marginTop: 24,
+            }}
+            bordered={false}
+            bodyStyle={{
+              padding: '8px 32px 32px 32px',
+            }}
+          >
+            <Table bordered columns={columns} dataSource={this.props.userListTable.data}
+                   style={{marginTop: 15}}
             />
-          </div>
+          </Card>
         </PageHeaderWrapper>
       </div>
     );

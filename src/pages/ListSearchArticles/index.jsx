@@ -1,3 +1,4 @@
+import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import React, {useEffect} from 'react';
 import {Button, Card, List, Tag} from 'antd';
 import {LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons';
@@ -104,70 +105,71 @@ const ListSearchArticles = (
 
   return (
     <>
-      <Card
-        style={{
-          marginTop: 24,
-        }}
-        bordered={false}
-        bodyStyle={{
-          padding: '8px 32px 32px 32px',
-        }}
-      >
-        <List
-          size="large"
-          loading={list.length === 0 ? loading : false}
-          rowKey="id"
-          itemLayout="vertical"
-          loadMore={loadMore}
-          dataSource={list}
-          renderItem={item => (
-            <List.Item
-              key={item.id}
-              actions={[
-                <IconText key="star" type="star-o"  text={item.star}/>,
-                <IconText key="like" type="like-o" text={item.like}/>,
-                <IconText key="message" type="message" text={item.message}/>,
-              ]}
-              extra={
-                <div className={styles.listItemExtra}>
-                  <img
-                    width={272}
-                    alt="logo"
-                    src={item.titleImg}
-                  />
-                </div>
-              }
-            >
-              <List.Item.Meta
-                title={
-                  <a className={styles.listItemMetaTitle} onClick={()=>
-                  {
-                    console.log(item);
-                    history.replace(
-                    {
-                      pathname: '/TopicDetailPage',
-                      state:{
-                        item,
-                      }
-                    }
-                  ) }}>
-                    {item.title}
-                  </a>
-
+      <PageHeaderWrapper>
+        <Card
+          style={{
+            marginTop: 24,
+          }}
+          bordered={false}
+          bodyStyle={{
+            padding: '8px 32px 32px 32px',
+          }}
+        >
+          <List
+            size="large"
+            loading={list.length === 0 ? loading : false}
+            rowKey="id"
+            itemLayout="vertical"
+            loadMore={loadMore}
+            dataSource={list}
+            renderItem={item => (
+              <List.Item
+                key={item.id}
+                actions={[
+                  <IconText key="star" type="star-o"  text={item.star}/>,
+                  <IconText key="like" type="like-o" text={item.like}/>,
+                  <IconText key="message" type="message" text={item.message}/>,
+                ]}
+                extra={
+                  <div className={styles.listItemExtra}>
+                    <img
+                      width={272}
+                      alt="logo"
+                      src={item.titleImg}
+                    />
+                  </div>
                 }
-                description={
-                  <span>
+              >
+                <List.Item.Meta
+                  title={
+                    <a className={styles.listItemMetaTitle} onClick={()=>
+                    {
+                      history.replace(
+                        {
+                          pathname: '/TopicDetailPage',
+                          state:{
+                            item,
+                          }
+                        }
+                      ) }}>
+                      {item.title}
+                    </a>
+
+                  }
+                  description={
+                    <span>
                     <Tag>推荐</Tag>
                     <Tag>React</Tag>
                     <Tag>随笔</Tag>
                   </span>
-                }
-              />
-              <ArticleListContent data={item}/>
-            </List.Item>
-          )}
-        />
-      </Card>
+                  }
+                />
+                <ArticleListContent data={item}/>
+              </List.Item>
+            )}
+          />
+        </Card>
+      </PageHeaderWrapper>
     </>
   );
 };

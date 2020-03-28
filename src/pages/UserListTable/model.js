@@ -1,4 +1,4 @@
-import {queryRule, removeRule} from './service';
+import {queryRule, removeRule,updateRule} from './service';
 
 const MyTableModel = {
   namespace: 'userListTable',
@@ -17,6 +17,16 @@ const MyTableModel = {
       let response = yield call(removeRule,payload);
       if(response.status==='ok'){
          response = yield call(queryRule);
+      }
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(response) ? response : [],
+      });
+    },
+    *updateUser({payload},{call,put}){
+      let response = yield call(updateRule,payload.user);
+      if(response.status==='ok'){
+        response = yield call(queryRule);
       }
       yield put({
         type: 'queryList',
