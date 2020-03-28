@@ -4,7 +4,7 @@ import {LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined} from '@ant
 import {connect} from 'dva';
 import ArticleListContent from './components/ArticleListContent';
 import styles from './style.less';
-
+import history from "@/pages/.umi/history";
 const pageSize = 3;
 let initNo = 0;
 const ListSearchArticles = (
@@ -140,7 +140,17 @@ const ListSearchArticles = (
             >
               <List.Item.Meta
                 title={
-                  <a className={styles.listItemMetaTitle} href={item.href}>
+                  <a className={styles.listItemMetaTitle} onClick={()=>
+                  {
+                    console.log(item);
+                    history.replace(
+                    {
+                      pathname: '/TopicDetailPage',
+                      state:{
+                        item,
+                      }
+                    }
+                  ) }}>
                     {item.title}
                   </a>
 

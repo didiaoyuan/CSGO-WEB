@@ -68,6 +68,7 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
       // });
     }
   }, [userAndregister]);
+
   useEffect(
     () => () => {
       clearInterval(interval);

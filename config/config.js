@@ -107,7 +107,6 @@ export default {
           path: '/user/register',
           component: './user/register',
         },
-
       ],
     },
     {
@@ -131,10 +130,11 @@ export default {
               authority: ['user', 'admin', 'guest'],
             },
             {
-              name: '空白页面',
+              name: '帖子详情',
               icon: 'smile',
-              path: '/userlistpage',
-              component: './UserListPage',
+              path: '/TopicDetailPage',
+              component: './TopicDetailPage',
+              hideInMenu: 'true',
             },
             {
               name: ' 工作台',
@@ -158,18 +158,11 @@ export default {
               authority: ['user'],
             },
             {
-              name: ' 用户管理',
-              icon: 'IdcardFilled',
-              path: '/listtablelist',
-              component: './ListTableList',
-              authority: ['admin'],
-            },
-            {
-              name: ' 板块管理',
+              name: ' 分类管理',
               icon: 'AppstoreFilled',
               path: '/listcardlist',
               component: './ListCardList',
-              authority: ['admin'],
+              authority: ['user'],
             },
             {
               name: '个人中心',
@@ -186,11 +179,25 @@ export default {
               authority: ['user'],
             },
             {
-              name: '详情页面',
-              icon: 'smile',
-              path: '/detailpage',
-              component: './DetailPage',
-              authority: ['user'],
+              name: '帖子管理',
+              icon: 'FileTextFilled',
+              path: '/UserListPage',
+              component: './UserListPage',
+            },
+            {
+              name: ' 用户管理',
+              icon: 'IdcardFilled',
+              path: '/userlisttable',
+              component: './UserListTable',
+              authority: ['admin'],
+            },
+            {
+              name: ' table',
+              icon: 'IdcardFilled',
+              path: '/listtablelist',
+              component: './ListTableList',
+              hideInMenu:'true',
+              authority: ['admin'],
             },
             {
               path: '/admin',

@@ -28,12 +28,12 @@ function beforeUpload(file) {
 const { confirm } = Modal;
 function showDeleteConfirm() {
   confirm({
-    title: 'Are you sure delete this task?',
+    title: '确定删除此项目?',
     icon: <ExclamationCircleOutlined />,
-    content: 'Some descriptions',
-    okText: 'Yes',
+    content: '删除后可能造成当下板块的帖子无法正常显示',
+    okText: '是的',
     okType: 'danger',
-    cancelText: 'No',
+    cancelText: '在考虑一下',
     onOk() {
       console.log('OK');
     },
@@ -83,8 +83,10 @@ class ListCardList extends Component {
 
   handleOk = e => {
     console.log(e);
+    // todo 添加板块
     this.setState({
       visible: false,
+
     });
   };
 
@@ -183,11 +185,6 @@ class ListCardList extends Component {
               </Form.Item>
               <Form.Item name={['board', 'description']} label="板块描述">
                 <Input.TextArea />
-              </Form.Item>
-              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
               </Form.Item>
             </Form>
           </Modal>

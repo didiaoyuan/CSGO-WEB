@@ -16,7 +16,7 @@ const CreateForm = props => {
   return (
     <Modal
       destroyOnClose
-      title="新建规则"
+      title="新建用户"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => onCancel()}
