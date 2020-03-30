@@ -22,6 +22,20 @@ class AvatarDropdown extends React.Component {
       return;
     }
 
+    if (key === 'center') {
+      router.push({
+        pathname: '/accountcenter',
+      });
+      return;
+    }
+
+    if (key === 'settings') {
+      router.push({
+        pathname: '/accountsettings',
+      });
+      return;
+    }
+
     router.push(`/account/${key}`);
   };
 
@@ -31,7 +45,7 @@ class AvatarDropdown extends React.Component {
         avatar: '',
         name: '',
       },
-      menu,
+      menu=JSON.parse(localStorage.getItem('antd-pro-authority'))[0]==="user" ? true:false,
     } = this.props;
     const menuHeaderDropdown = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
@@ -41,6 +55,7 @@ class AvatarDropdown extends React.Component {
             个人中心
           </Menu.Item>
         )}
+
         {menu && (
           <Menu.Item key="settings">
             <SettingOutlined />

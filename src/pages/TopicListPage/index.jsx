@@ -108,9 +108,13 @@ class LoadMoreList extends React.Component {
                       avatar={
                         <Avatar src={item.avatar}/>
                       }
-                      title={<a href="" onClick={()=>{
-                        history.push('/TopicDetailPage',{
+                      title={<a href="" onClick={()=>
+                      {
+                        history.replace({
+                          pathname:'/TopicDetailPage',
+                          state:{
                             item,
+                          }
                         })
                       }} >{item.title}</a>}
                       description={item.description}

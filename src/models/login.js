@@ -17,6 +17,7 @@ const Model = {
       }); // Login successfully
       console.log(response.currentUser.userid);
       localStorage.setItem('userId',response.currentUser.userid);
+      localStorage.setItem('currentUser',JSON.stringify(response.currentUser));
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();

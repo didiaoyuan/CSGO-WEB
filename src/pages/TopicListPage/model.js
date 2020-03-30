@@ -14,7 +14,6 @@ const MyModel = {
       });
     },
     *removeTopic({payload},{call, put}){
-      console.log("请求参数",payload)
       let response = yield call(removeTopics,payload);
       if(response.status==='ok'){
         response  = yield call(queryTopics);

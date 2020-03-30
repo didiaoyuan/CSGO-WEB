@@ -13,6 +13,7 @@ const SettingModel = {
   state: defaultSettings,
   reducers: {
     changeSetting(state = defaultSettings, { payload }) {
+      console.log("find",payload);
       const { colorWeak, contentWidth } = payload;
 
       if (state.contentWidth !== contentWidth && window.dispatchEvent) {

@@ -19,7 +19,7 @@ class SecurityLayout extends React.Component {
       dispatch({
         type: 'user/fetchCurrent',
         payload:{
-          userId: localStorage.getItem('userId')? JSON.parse(localStorage.getItem('userId')):null,
+          userId: localStorage.getItem('userId')? JSON.parse(localStorage.getItem('userId')):-1,
         },
       });
     }

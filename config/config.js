@@ -147,13 +147,6 @@ export default {
               authority: ['user', 'guest'],
             },
             {
-              name: '搜索管理',
-              icon: 'smile',
-              path: '/listsearch',
-              component: './ListSearch',
-              authority: ['user'],
-            },
-            {
               name: '分类管理',
               icon: 'AppstoreFilled',
               path: '/listcardlist',
@@ -166,6 +159,7 @@ export default {
               path: '/accountcenter',
               component: './AccountCenter',
               authority: ['user'],
+              hideInMenu:'true',
             },
             {
               name: '个人设置',
@@ -173,6 +167,7 @@ export default {
               path: '/accountsettings',
               component: './AccountSettings',
               authority: ['user'],
+              hideInMenu:'true',
             },
             {
               name: '帖子管理',

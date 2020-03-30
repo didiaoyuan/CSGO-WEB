@@ -1,8 +1,9 @@
 import React from 'react';
 // import './index.less';
 import styles from  './index.less';
-import {Typography,Card,Avatar,Comment, Tooltip, List,Divider,Form,Input,Button} from 'antd';
+import {Typography,Card,Avatar,Comment, List,Divider,Form,Input,Button} from 'antd';
 import moment from 'moment';
+import {connect} from 'dva';
 
 const {Title,Paragraph,Text} = Typography;
 
@@ -28,31 +29,63 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
     </Form.Item>
   </div>
 );
-class UserListPage extends React.Component {
+class TopicDetailPage extends React.Component {
 
   state = {
     comments: [],
     submitting: false,
     value: '',
   };
+  
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'commentListModel/getCommentLit',
+      payload: {
+        topicId: Number(this.props.location.state.item.id),
+      }
+    });
+  };
 
-  handleSubmit = () => {
+
+  handleSubmit = (e) => {
+   
+
     if (!this.state.value) {
       return;
     }
-
+    const {dispatch} = this.props;
+    // console.log(!this.state.value)
+    
     this.setState({
       submitting: true,
     });
-
+    dispatch({
+      type:'commentListModel/addComment',
+      payload:{
+        content:this.state.value,
+        topicId:e.id,
+        userId:Number(localStorage.getItem('userId')),
+      }
+    }).then(res=>{
+      console.log(res)
+      if(res.status==='ok'){
+        dispatch({
+          type: 'commentListModel/getCommentLit',
+          payload: {
+            topicId: Number(this.props.location.state.item.id),
+          }
+        });
+      }
+    });
     setTimeout(() => {
       this.setState({
         submitting: false,
         value: '',
         comments: [
           {
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            author: JSON.parse(localStorage.getItem('currentUser')).name,
+            avatar: JSON.parse(localStorage.getItem('currentUser')).avatar,
             content: <p>{this.state.value}</p>,
             datetime: moment().fromNow(),
           },
@@ -67,72 +100,14 @@ class UserListPage extends React.Component {
       value: e.target.value,
     });
   };
-  // componentDidMount() {
-  //   const { dispatch } = this.props;
-  //   dispatch({
-  //     type:'',
-  //     payload:{
-  //       id:this.props.location.state.item.id,
-  //     }
-  //   })
-  // };
 
   render() {
     const getDetail = this.props.location.state.item;
-    const data = [
-      {
-        actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-        author: 'Han Solo',
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        content: (
-          <p>
-            We supply a series of design principles, practical patterns and high quality design
-            resources (Sketch and Axure), to help people create their product prototypes beautifully and
-            efficiently.
-          </p>
-        ),
-        datetime: (
-          <Tooltip
-            title={moment()
-              .subtract(1, 'days')
-              .format('YYYY-MM-DD HH:mm:ss')}
-          >
-        <span>
-          {moment()
-            .subtract(1, 'days')
-            .fromNow()}
-        </span>
-          </Tooltip>
-        ),
-      },
-      {
-        actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-        author: 'Han Solo',
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        content: (
-          <p>
-            We supply a series of design principles, practical patterns and high quality design
-            resources (Sketch and Axure), to help people create their product prototypes beautifully and
-            efficiently.
-          </p>
-        ),
-        datetime: (
-          <Tooltip
-            title={moment()
-              .subtract(2, 'days')
-              .format('YYYY-MM-DD HH:mm:ss')}
-          >
-        <span>
-          {moment()
-            .subtract(2, 'days')
-            .fromNow()}
-        </span>
-          </Tooltip>
-        ),
-      },
-    ];
+    
     // 评论框
     const { comments, submitting, value } = this.state;
+    const list = this.props.commentListModel.list;
+    console.log("comments",list);
     return (
       <div>
           <Card>
@@ -152,40 +127,21 @@ class UserListPage extends React.Component {
               </div>
               <Divider/>
               <div>
-                评论组件
-                <List
-                  className="comment-list"
-                  header={`${data.length} 个回复`}
-                  itemLayout="horizontal"
-                  dataSource={data}
-                  renderItem={item => (
-                    <li className={styles.styleClear}>
-                      <Comment
-                        actions={item.actions}
-                        author={item.author}
-                        avatar={item.avatar}
-                        content={item.content}
-                        datetime={item.datetime}
-                      />
-                    </li>
-                  )}
-                />
-              </div>
-              回复框
-              <div>
                 <div>
-                  {comments.length > 0 && <CommentList comments={comments} />}
+                  {list.length > 0 && <CommentList comments={list} />}
                   <Comment
                     avatar={
                       <Avatar
-                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                        alt="Han Solo"
+                        src={JSON.parse(localStorage.getItem('currentUser')).avatar}
+                        alt="头像"
                       />
                     }
                     content={
                       <Editor
                         onChange={this.handleChange}
-                        onSubmit={this.handleSubmit}
+                        onSubmit={()=>{
+                          this.handleSubmit(getDetail)
+                        }}
                         submitting={submitting}
                         value={value}
                       />
@@ -200,4 +156,7 @@ class UserListPage extends React.Component {
   }
 }
 
-export default UserListPage;
+export default connect(({commentListModel,loading})=>({
+  commentListModel,
+  loading:loading.models.commentListModel,
+}))(TopicDetailPage);

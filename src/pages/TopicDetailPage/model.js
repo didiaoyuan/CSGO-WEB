@@ -1,32 +1,28 @@
-import {queryRule, removeRule,updateRule} from './service';
+import {addComment,queryComment} from './service';
 
-const MyTableModel = {
-  namespace: 'userListTable',
+const MyCommentModel = {
+  namespace: 'commentListModel',
   state: {
-    data: [],
+    list: [],
   },
   effects: {
-    *getUserTable(_, { call, put }) {
-      const response = yield call(queryRule);
+    *getCommentLit({payload}, { call, put }) {
+      const response = yield call(queryComment,payload);
+      
       yield put({
         type: 'queryList',
         payload: Array.isArray(response) ? response : [],
       });
     },
-    *removeUser({payload},{call,put}){
-      let response = yield call(removeRule,payload);
+    *addComment({payload},{call,put}){
+      
+      let response = yield call(addComment,payload);
+      return response;
+      const topicId={
+        topicId:payload.topicId
+      };
       if(response.status==='ok'){
-         response = yield call(queryRule);
-      }
-      yield put({
-        type: 'queryList',
-        payload: Array.isArray(response) ? response : [],
-      });
-    },
-    *updateUser({payload},{call,put}){
-      let response = yield call(updateRule,payload.user);
-      if(response.status==='ok'){
-        response = yield call(queryRule);
+        response = yield call(queryComment,topicId);
       }
       yield put({
         type: 'queryList',
@@ -36,8 +32,8 @@ const MyTableModel = {
   },
   reducers: {
     queryList(state, action) {
-      return { ...state, data: action.payload };
+      return { ...state, list: action.payload };
     }
   },
 };
-export default MyTableModel;
+export default MyCommentModel;
