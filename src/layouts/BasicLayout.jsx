@@ -128,6 +128,13 @@ const BasicLayout = props => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
+  console.log(children)
+  if(JSON.parse(localStorage.getItem('antd-pro-authority'))[0]!=='admin'){
+    settings.layout="topmenu";
+  }else{
+    settings.layout="sidemenu";
+  }
+  
   return (
     <ProLayout
       logo={logo}
