@@ -134,7 +134,7 @@ export default {
             },
             {
               name: '分析页',
-              icon: 'smile',
+              icon: 'FundFilled',
               path: '/dashboardanalysis',
               component: './DashboardAnalysis',
             },
