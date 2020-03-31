@@ -3,6 +3,13 @@ import request from '@/utils/request';
 export async function queryCurrent() {
   return request('/api/currentUser');
 }
+
+export async function queryCurrentUser(params) {
+  return request('/my/api/currentUser',{
+    params,
+  });
+}
+
 export async function queryProvince() {
   return request('/api/geographic/province');
 }

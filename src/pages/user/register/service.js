@@ -2,7 +2,6 @@ import request from '@/utils/request';
 
 export async function fakeRegister(params) {
   console.log(params);
-  alert("123")
   return request('/my/api/register', {
     method: 'POST',
     data: params,

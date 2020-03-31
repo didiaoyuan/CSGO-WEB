@@ -43,8 +43,16 @@ class AccountSettings extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+
     dispatch({
       type: 'accountSettings/fetchCurrent',
+    });
+
+    dispatch({
+      type: 'accountSettings/queryCurrentUser',
+      payload:{
+        userId:Number(JSON.parse(localStorage.getItem('userId'))),
+      },
     });
     window.addEventListener('resize', this.resize);
     this.resize();

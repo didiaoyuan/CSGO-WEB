@@ -63,11 +63,11 @@ class BaseView extends Component {
   view = undefined;
 
   getAvatarURL() {
-    const { currentUser } = this.props;
+    const { userSettings } = this.props;
 
-    if (currentUser) {
-      if (currentUser.avatar) {
-        return currentUser.avatar;
+    if (userSettings) {
+      if (userSettings.currentUser) {
+        return userSettings.currentUser.avatar;
       }
 
       const url = 'https://gw.alipayobjects.com/zos/rmsportal/ZiESqWwCXBRQoaPONSJe.png';
@@ -90,14 +90,14 @@ class BaseView extends Component {
   };
 
   render() {
-    const { currentUser } = this.props;
+    const { userSettings } = this.props;
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
           <Form
             layout="vertical"
             onFinish={this.handleFinish}
-            initialValues={currentUser}
+            initialValues={userSettings.currentUser}
             hideRequiredMark
           >
             <Form.Item
@@ -162,93 +162,93 @@ class BaseView extends Component {
                 rows={4}
               />
             </Form.Item>
-            <Form.Item
-              name="country"
-              label={formatMessage({
-                id: 'accountsettings.basic.country',
-              })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage(
-                    {
-                      id: 'accountsettings.basic.country-message',
-                    },
-                    {},
-                  ),
-                },
-              ]}
-            >
-              <Select
-                style={{
-                  maxWidth: 220,
-                }}
-              >
-                <Option value="China">中国</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="geographic"
-              label={formatMessage({
-                id: 'accountsettings.basic.geographic',
-              })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage(
-                    {
-                      id: 'accountsettings.basic.geographic-message',
-                    },
-                    {},
-                  ),
-                },
-                {
-                  validator: validatorGeographic,
-                },
-              ]}
-            >
-              <GeographicView />
-            </Form.Item>
-            <Form.Item
-              name="address"
-              label={formatMessage({
-                id: 'accountsettings.basic.address',
-              })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage(
-                    {
-                      id: 'accountsettings.basic.address-message',
-                    },
-                    {},
-                  ),
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            {/*<Form.Item*/}
+            {/*  name="country"*/}
+            {/*  label={formatMessage({*/}
+            {/*    id: 'accountsettings.basic.country',*/}
+            {/*  })}*/}
+            {/*  rules={[*/}
+            {/*    {*/}
+            {/*      required: true,*/}
+            {/*      message: formatMessage(*/}
+            {/*        {*/}
+            {/*          id: 'accountsettings.basic.country-message',*/}
+            {/*        },*/}
+            {/*        {},*/}
+            {/*      ),*/}
+            {/*    },*/}
+            {/*  ]}*/}
+            {/*>*/}
+            {/*  <Select*/}
+            {/*    style={{*/}
+            {/*      maxWidth: 220,*/}
+            {/*    }}*/}
+            {/*  >*/}
+            {/*    <Option value="China">中国</Option>*/}
+            {/*  </Select>*/}
+            {/*</Form.Item>*/}
+            {/*<Form.Item*/}
+            {/*  name="geographic"*/}
+            {/*  label={formatMessage({*/}
+            {/*    id: 'accountsettings.basic.geographic',*/}
+            {/*  })}*/}
+            {/*  rules={[*/}
+            {/*    {*/}
+            {/*      required: true,*/}
+            {/*      message: formatMessage(*/}
+            {/*        {*/}
+            {/*          id: 'accountsettings.basic.geographic-message',*/}
+            {/*        },*/}
+            {/*        {},*/}
+            {/*      ),*/}
+            {/*    },*/}
+            {/*    {*/}
+            {/*      validator: validatorGeographic,*/}
+            {/*    },*/}
+            {/*  ]}*/}
+            {/*>*/}
+            {/*  <GeographicView />*/}
+            {/*</Form.Item>*/}
+            {/*<Form.Item*/}
+            {/*  name="address"*/}
+            {/*  label={formatMessage({*/}
+            {/*    id: 'accountsettings.basic.address',*/}
+            {/*  })}*/}
+            {/*  rules={[*/}
+            {/*    {*/}
+            {/*      required: true,*/}
+            {/*      message: formatMessage(*/}
+            {/*        {*/}
+            {/*          id: 'accountsettings.basic.address-message',*/}
+            {/*        },*/}
+            {/*        {},*/}
+            {/*      ),*/}
+            {/*    },*/}
+            {/*  ]}*/}
+            {/*>*/}
+            {/*  <Input />*/}
+            {/*</Form.Item>*/}
             <Form.Item
               name="phone"
               label={formatMessage({
                 id: 'accountsettings.basic.phone',
               })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage(
-                    {
-                      id: 'accountsettings.basic.phone-message',
-                    },
-                    {},
-                  ),
-                },
-                {
-                  validator: validatorPhone,
-                },
-              ]}
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: formatMessage(
+              //       {
+              //         id: 'accountsettings.basic.phone-message',
+              //       },
+              //       {},
+              //     ),
+              //   },
+              //   {
+              //     validator: validatorPhone,
+              //   },
+              // ]}
             >
-              <PhoneView />
+              <Input />
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" type="primary">
@@ -269,5 +269,5 @@ class BaseView extends Component {
 }
 
 export default connect(({ accountSettings }) => ({
-  currentUser: accountSettings.currentUser,
+  userSettings: accountSettings.userSettings,
 }))(BaseView);

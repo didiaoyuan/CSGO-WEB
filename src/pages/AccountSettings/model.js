@@ -1,8 +1,9 @@
-import { queryCity, queryCurrent, queryProvince, query as queryUsers } from './service';
+import { queryCity, queryCurrent, queryProvince, query as queryUsers,queryCurrentUser } from './service';
 
 const Model = {
   namespace: 'accountSettings',
   state: {
+    userSettings:{},
     currentUser: {},
     province: [],
     city: [],
@@ -24,7 +25,13 @@ const Model = {
         payload: response,
       });
     },
-
+    *queryCurrentUser({ payload }, { call, put }) {
+      const response = yield call(queryCurrentUser,payload);
+      yield put({
+        type: 'getUserSettings',
+        payload: response,
+      });
+    },
     *fetchProvince(_, { call, put }) {
       yield put({
         type: 'changeLoading',
@@ -72,6 +79,9 @@ const Model = {
     changeLoading(state, action) {
       return { ...state, isLoading: action.payload };
     },
+    getUserSettings(state,action){
+      return {...state,userSettings: action.payload};
+    }
   },
 };
 export default Model;
