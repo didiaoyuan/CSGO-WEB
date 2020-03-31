@@ -15,36 +15,36 @@ const Model = {
         type: 'changeLoginStatus',
         payload: response,
       }); // Login successfully
-      console.log(response.currentUser.userid);
       localStorage.setItem('userId',response.currentUser.userid);
       localStorage.setItem('currentUser',JSON.stringify(response.currentUser));
       if (response.status === 'ok') {
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
+        // const urlParams = new URL(window.location.href);
+        // const params = getPageQuery();
+        // let { redirect } = params;
 
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = '/';
-            return;
-          }
-        }
-        router.replace(redirect || '/listsearcharticles');
+        // if (redirect) {
+        //   const redirectUrlParams = new URL(redirect);
+        //
+        //   if (redirectUrlParams.origin === urlParams.origin) {
+        //     redirect = redirect.substr(urlParams.origin.length);
+        //     console.log(redirect);
+        //     if (redirect.match(/^\/.*#/)) {
+        //       redirect = redirect.substr(redirect.indexOf('#') + 1);
+        //     }
+        //   } else {
+        //
+        //     window.location.href = '/listsearcharticles';
+        //     return;
+        //   }
+        // }
+        router.push('/listsearcharticles');
       }
     },
     logout() {
       const { redirect } = getPageQuery(); // Note: There may be security issues, please note
       setAuthority("guest"); // todo:清除权限
       if (window.location.pathname !== '/user/login' && !redirect) {
-        router.replace({
+        router.push({
           pathname: '/user/login',
           search: stringify({
             redirect: window.location.href,

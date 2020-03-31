@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import Link from 'umi/link';
 import { connect } from 'dva';
-import Projects from './components/Projects';
+import Comments from './components/Comments';
 import Articles from './components/Articles';
 import Applications from './components/Applications';
 import styles from './Center.less';
@@ -14,7 +14,7 @@ const operationTabList = [
     key: 'articles',
     tab: (
       <span>
-        文章{' '}
+        我的帖子{' '}
         <span
           style={{
             fontSize: 14,
@@ -30,6 +30,21 @@ const operationTabList = [
     tab: (
       <span>
         关注的板块{' '}
+        <span
+          style={{
+            fontSize: 14,
+          }}
+        >
+          {/*(8)*/}
+        </span>
+      </span>
+    ),
+  },
+  {
+    key: 'comments',
+    tab: (
+      <span>
+        我的回复{' '}
         <span
           style={{
             fontSize: 14,
@@ -89,6 +104,13 @@ class AccountCenter extends Component {
         userId: String(localStorage.getItem('userId')),
       }
     });
+
+    dispatch({
+      type: 'accountCenter/fetchComments',
+      payload: {
+        userId: String(localStorage.getItem('userId')),
+      }
+    });
   }
 
   onTabChange = key => {
@@ -142,9 +164,6 @@ class AccountCenter extends Component {
   };
 
   renderChildrenByTabKey = tabKey => {
-    if (tabKey === 'projects') {
-      return <Projects />;
-    }
 
     if (tabKey === 'applications') {
       return <Applications />;
@@ -152,6 +171,10 @@ class AccountCenter extends Component {
 
     if (tabKey === 'articles') {
       return <Articles />;
+    }
+
+    if (tabKey === 'comments') {
+      return <Comments />;
     }
 
     return null;

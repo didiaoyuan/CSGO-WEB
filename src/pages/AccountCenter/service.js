@@ -17,6 +17,18 @@ export async function queryMyBoard(params) {
   });
 }
 
+export async function queryMyComments(params) {
+  return request('/my/api/queryCommentByUser', {
+    params,
+  });
+}
+
+export async function removeMyComments(params) {
+  return request('/my/api/removePost', {
+    params,
+  });
+}
+
 
 export async function removeBoardsStar(params) {
   return request('/my/api/removeBoardsStar', {

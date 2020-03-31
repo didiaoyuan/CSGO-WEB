@@ -1,4 +1,4 @@
-import { queryCurrent, queryMyList,queryMyBoard,removeBoardsStar } from './service';
+import { queryCurrent, queryMyList,queryMyBoard,removeBoardsStar,queryMyComments,removeMyComments } from './service';
 import {message} from 'antd';
 
 const Model = {
@@ -27,15 +27,38 @@ const Model = {
 
     *fetchBoards({ payload }, { call, put }) {
       const response = yield call(queryMyBoard, payload);
-      console.log(response)
       yield put({
         type: 'queryBoardList',
         payload: Array.isArray(response) ? response : [],
       });
     },
 
+    *fetchComments({ payload }, { call, put }) {
+      const response = yield call(queryMyComments, payload);
+      yield put({
+        type: 'queryMyComments',
+        payload: Array.isArray(response) ? response : [],
+      });
+    },
+
+    *removeComments({ payload }, { call, put }) {
+      let response = yield call(removeMyComments, payload);
+      if(response.status==='ok'){
+        message.success("删除成功");
+
+        const userId={
+          userId:Number(JSON.parse(localStorage.getItem('userId'))),
+        };
+
+        response = yield call(queryMyComments,userId);
+        yield put({
+          type: 'queryMyComments',
+          payload: Array.isArray(response) ? response : [],
+        });
+      }
+    },
+
     *removeBoards({ payload }, { call, put }) {
-      console.log("请求数据",payload)
       let response = yield call(removeBoardsStar, payload);
       console.log(response)
       if(response.status==='ok') {
@@ -60,6 +83,9 @@ const Model = {
     queryBoardList(state, action) {
       return { ...state, boardList: action.payload };
     },
+    queryMyComments(state, action){
+      return { ...state, CommentsList: action.payload };
+    }
   },
 };
 export default Model;
