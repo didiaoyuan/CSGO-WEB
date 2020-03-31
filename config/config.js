@@ -133,6 +133,12 @@ export default {
               hideInMenu: 'true',
             },
             {
+              name: '分析页',
+              icon: 'smile',
+              path: '/dashboardanalysis',
+              component: './DashboardAnalysis',
+            },
+            {
               name: ' 工作台',
               icon: 'IdcardFilled',
               path: '/dashboard/workplace',
@@ -197,7 +203,7 @@ export default {
               icon: 'CrownFilled',
               component: './Admin',
               authority: ['admin'],
-              hideInMenu:'true',
+              hideInMenu: 'true',
               routes: [
                 {
                   path: '/admin/sub-page',
@@ -213,7 +219,7 @@ export default {
               icon: 'PlusCircleFilled',
               path: '/addtopicpage',
               component: './AddTopicPage',
-              authority:['user'],
+              authority: ['user'],
             },
             {
               component: './404',

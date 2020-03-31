@@ -1,6 +1,6 @@
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
-import { List } from 'antd';
+import { List,Modal,Form,Input,Checkbox,Button } from 'antd';
 
 const passwordStrength = {
   strong: (
@@ -21,7 +21,50 @@ const passwordStrength = {
   ),
 };
 
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
+
+
 class SecurityView extends Component {
+
+  state = {
+    visible: false
+  };
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  changePassword=()=>{
+
+  };
+
+  onFinish=()=>{
+
+  }
+
   getData = () => [
     {
       title: formatMessage(
@@ -39,7 +82,7 @@ class SecurityView extends Component {
         </>
       ),
       actions: [
-        <a key="Modify">
+        <a key="Modify" onClick={this.showModal}>
           <FormattedMessage id="accountsettings.security.modify" defaultMessage="Modify" />
         </a>,
       ],
@@ -123,9 +166,56 @@ class SecurityView extends Component {
   ];
 
   render() {
+
     const data = this.getData();
     return (
       <>
+        <div>
+          <Modal
+            title="修改密码"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer
+          >
+            <Form
+              {...layout}
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={this.onFinish}
+            >
+              <Form.Item
+                label="Username"
+                name="username"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password />
+              </Form.Item>
+              <Form.Item
+                label="PasswordAgain"
+                name="passwordAgain"
+                rules={[{ required: true, message: 'Please input your password agin!' }]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+
+              <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal>
+        </div>
         <List
           itemLayout="horizontal"
           dataSource={data}
