@@ -53,18 +53,18 @@ const formItemLayout = {
 
 const CardInfo = ({ activeUser, newUser }) => (
   <div >
-    {/*<div>*/}
-    {/*  <p>今日活跃用户</p>*/}
-    {/*  <p>{activeUser}</p>*/}
-    {/*</div>*/}
+    <div>
+      <p>今日活跃用户</p>
+      <p>{activeUser}</p>
+    </div>
     <div>
       <p>今日新增用户</p>
       <p>{newUser}</p>
     </div>
-    <div>
-      <p>总订阅数</p>
-      <p>{newUser}</p>
-    </div>
+    {/*<div>*/}
+    {/*  <p>总订阅数</p>*/}
+    {/*  <p>{newUser}</p>*/}
+    {/*</div>*/}
   </div>
 );
 
@@ -141,11 +141,6 @@ export const ListSearchBoards = props => {
                   }}>
                     <Tooltip key="start" title="关注" >
                     <StarOutlined />
-                  </Tooltip>
-                  </span>,
-                  <span>
-                    <Tooltip key="edit" title="编辑" >
-                    <EditOutlined />
                   </Tooltip>
                   </span>,
                   <span>

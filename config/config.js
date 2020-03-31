@@ -147,11 +147,11 @@ export default {
               authority: ['user', 'guest'],
             },
             {
-              name: '分类管理',
+              name: '板块管理',
               icon: 'AppstoreFilled',
               path: '/listcardlist',
-              component: './ListCardList',
-              authority: ['user'],
+              component: './BoardManagmentPage',
+              authority: ['admin'],
             },
             {
               name: '个人中心',

@@ -1,6 +1,6 @@
 import { LoadingOutlined, PlusOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
 import { Button, Card, List, Typography,Modal,Form, Input,Upload, message } from 'antd';
-import React, { Component } from 'react';
+import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
 import styles from './style.less';
@@ -27,25 +27,9 @@ function beforeUpload(file) {
 
 // 删除对话框
 const { confirm } = Modal;
-function showDeleteConfirm() {
-  confirm({
-    title: '确定删除此项目?',
-    icon: <ExclamationCircleOutlined />,
-    content: '删除后可能造成当下板块的帖子无法正常显示',
-    okText: '是的',
-    okType: 'danger',
-    cancelText: '在考虑一下',
-    onOk() {
-      console.log('OK');
-    },
-    onCancel() {
-      console.log('Cancel');
-    },
-  });
-}
 
 // 组件
-class ListCardList extends Component {
+class ListCardList extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -100,6 +84,49 @@ class ListCardList extends Component {
     });
   };
 
+  submitUpdate=()=>{
+    console.log("hello")
+  };
+
+  onFinish = (value) => {
+
+    this.setState({
+      visible: false,
+    });
+    console.log(value);
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'listCardList/addBoard',
+      payload: {
+        boardName:value.boardName,
+        boardDesc:value.boardDesc,
+        boardImg:"http://ww1.sinaimg.cn/large/006rAlqhgy1gdd9t5u3alj30b40b4js3.jpg",
+      }
+    });
+  };
+
+  showDeleteConfirm(id) {
+    const {dispatch}=this.props;
+    confirm({
+      title: '确定删除此项目?',
+      icon: <ExclamationCircleOutlined />,
+      content: '删除后可能造成当下板块的帖子无法正常显示',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '在考虑一下',
+      onOk() {
+        dispatch({
+          type:'listCardList/removeBoard',
+          payload:{
+            boardId:id,
+          }
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
 
   render() {
     const {
@@ -114,9 +141,7 @@ class ListCardList extends Component {
       wrapperCol: { span: 16 },
     };
 
-    const onFinish = values => {
-      console.log(values);
-    };
+
 
     const content = (
       <div className={styles.pageHeaderContent}>
@@ -168,9 +193,10 @@ class ListCardList extends Component {
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
+            footer
           >
-            <Form {...layout} name="nest-messages" onFinish={onFinish} >
-              <Form.Item name={['board', 'website']} label="板块图片">
+            <Form {...layout} name="nest-messages" onFinish={this.onFinish} >
+              <Form.Item  label="板块图片">
                 <Upload
                   name="avatar"
                   listType="picture-card"
@@ -183,11 +209,18 @@ class ListCardList extends Component {
                   {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                 </Upload>
               </Form.Item>
-              <Form.Item name={['board', 'name']} label="板块名称" rules={[{ required: true }]}>
+              <Form.Item name="boardName" label="板块名称" rules={[{ required: true }]}>
                 <Input />
               </Form.Item>
-              <Form.Item name={['board', 'description']} label="板块描述">
+              <Form.Item name="boardDesc" label="板块描述">
                 <Input.TextArea />
+              </Form.Item>
+              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Button type="primary" htmlType="submit" onClick={()=>{
+                  this.submitUpdate()
+                }}>
+                  确定
+                </Button>
               </Form.Item>
             </Form>
           </Modal>
@@ -213,7 +246,9 @@ class ListCardList extends Component {
                       <Card
                         hoverable
                         className={styles.card}
-                        actions={[<a key="option1" onClick={this.showModal}>更新</a>, <a key="option2" onClick={showDeleteConfirm}>删除</a>]}
+                        actions={[<a key="option1" onClick={this.showModal}>更新</a>, <a key="option2" onClick={()=>{
+                          this.showDeleteConfirm(item.id)
+                        }}>删除</a>]}
 
                       >
                         <Card.Meta
