@@ -10,3 +10,16 @@ export async function queryMyList(params) {
     params,
   });
 }
+
+export async function queryMyBoard(params) {
+  return request('/my/api/queryBoardsStar', {
+    params,
+  });
+}
+
+
+export async function removeBoardsStar(params) {
+  return request('/my/api/removeBoardsStar', {
+    params,
+  });
+}

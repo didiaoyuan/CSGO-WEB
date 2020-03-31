@@ -1,18 +1,21 @@
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import React, {useEffect} from 'react';
 import {Button, Card, List, Tag} from 'antd';
-import {LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons';
+import {LoadingOutlined, StarOutlined, LikeOutlined,LikeFilled, MessageOutlined} from '@ant-design/icons';
 import {connect} from 'dva';
 import ArticleListContent from './components/ArticleListContent';
 import styles from './style.less';
 import history from "@/pages/.umi/history";
 const pageSize = 3;
 let initNo = 0;
+let likeBool = false;
 const ListSearchArticles = (
   {
     dispatch, listSearchArticles: {list}, loading}
 
     ) => {
+
+
   useEffect(() => {
     dispatch({
       type: 'listSearchArticles/fetch',
@@ -33,7 +36,20 @@ const ListSearchArticles = (
       },
     });
   };
-
+  const likeAction = () =>{
+    if(likeBool){
+      likeBool = false;
+    }else{
+      likeBool = true;
+    }
+    dispatch({
+      type: likeBool? 'listSearchArticles/appendFetch':'listSearchArticles/appendFetch',
+      payload: {
+        initCount: ++initNo,
+        count: pageSize,
+      },
+    });
+  }
   const IconText = ({type, text}) => {
     switch (type) {
       case 'star-o':
@@ -50,25 +66,41 @@ const ListSearchArticles = (
 
       case 'like-o':
         return (
-          <span>
-            <LikeOutlined
+          <span onClick={likeAction}>
+
+            {likeBool && (<LikeFilled
               style={{
                 marginRight: 8,
               }}
-            />
-            {text}
+            />)}
+            {likeBool && ++text}
+            {!likeBool && (<LikeOutlined
+              style={{
+                marginRight: 8,
+              }}
+            />)}
+            {!likeBool && text}
           </span>
         );
 
       case 'message':
         return (
-          <span>
+          <span onClick={()=>
+          {
+            history.replace(
+              {
+                pathname: '/TopicDetailPage',
+                state:{
+                  item:text,
+                }
+              }
+            ) }}>
             <MessageOutlined
               style={{
                 marginRight: 8,
               }}
             />
-            {text}
+            {text.message}
           </span>
         );
 
@@ -128,7 +160,7 @@ const ListSearchArticles = (
                 actions={[
                   <IconText key="star" type="star-o"  text={item.star}/>,
                   <IconText key="like" type="like-o" text={item.like}/>,
-                  <IconText key="message" type="message" text={item.message}/>,
+                  <IconText key="message" type="message"  text={item}/>,
                 ]}
                 extra={
                   <div className={styles.listItemExtra}>

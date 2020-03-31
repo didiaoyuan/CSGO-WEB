@@ -1,3 +1,4 @@
+import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import {
   StarOutlined,
   EditOutlined,
@@ -26,7 +27,7 @@ export function formatWan(val) {
           style={{
             position: 'relative',
             top: -2,
-            fontSize: 14,
+            fontSize: 13,
             fontStyle: 'normal',
             marginLeft: 2,
           }}
@@ -51,11 +52,11 @@ const formItemLayout = {
 };
 
 const CardInfo = ({ activeUser, newUser }) => (
-  <div className={styles.cardInfo}>
-    <div>
-      <p>今日活跃用户</p>
-      <p>{activeUser}</p>
-    </div>
+  <div >
+    {/*<div>*/}
+    {/*  <p>今日活跃用户</p>*/}
+    {/*  <p>{activeUser}</p>*/}
+    {/*</div>*/}
     <div>
       <p>今日新增用户</p>
       <p>{newUser}</p>
@@ -82,11 +83,12 @@ export const ListSearchBoards = props => {
     });
   }, [1]);
 
-  const handleValuesChange = () => {
+  const handleValuesChange = (target) => {
     dispatch({
-      type: 'listSearchBoards/fetch',
+      type: 'listSearchBoards/addBoardStar',
       payload: {
-        count: 8,
+        userId: localStorage.getItem('userId'),
+        boardId: String(target),
       },
     });
   };
@@ -111,54 +113,67 @@ export const ListSearchBoards = props => {
     </Menu>
   );
   return (
-    <div className={styles.filterCardList}>
-      <br />
-      <List
-        rowKey="id"
-        grid={{
-          gutter: 24,
-          xl: 4,
-          lg: 3,
-          md: 3,
-          sm: 2,
-          xs: 1,
-        }}
-        loading={loading}
-        dataSource={list}
-        renderItem={item => (
-          <List.Item key={item.id}>
-            <Card
-              hoverable
-              bodyStyle={{
-                paddingBottom: 20,
-              }}
-              actions={[
-                <Tooltip key="start" title="关注">
-                  <StarOutlined />
-                </Tooltip>,
-                <Tooltip key="edit" title="编辑">
-                  <EditOutlined />
-                </Tooltip>,
-                <Tooltip title="分享" key="share">
-                  <ShareAltOutlined />
-                </Tooltip>,
-                <Dropdown key="ellipsis" overlay={itemMenu}>
-                  <EllipsisOutlined />
-                </Dropdown>,
-              ]}
-            >
-              <Card.Meta avatar={<Avatar size="small" src={item.avatar} />} title={item.title} />
-              <div className={styles.cardItemContent}>
-                <CardInfo
-                  activeUser={formatWan(item.activeUser)}
-                  newUser={numeral(item.newUser).format('0,0')}
-                />
-              </div>
-            </Card>
-          </List.Item>
-        )}
-      />
-    </div>
+    <PageHeaderWrapper>
+      <div className={styles.filterCardList}>
+        <br />
+        <List
+          rowKey="id"
+          grid={{
+            gutter: 24,
+            xl: 4,
+            lg: 3,
+            md: 3,
+            sm: 2,
+            xs: 1,
+          }}
+          loading={loading}
+          dataSource={list}
+          renderItem={item => (
+            <List.Item key={item.id}>
+              <Card
+                hoverable
+                bodyStyle={{
+                  paddingBottom: 2,
+                }}
+                actions={[
+                  <span onClick={()=>{
+                    handleValuesChange(item.id)
+                  }}>
+                    <Tooltip key="start" title="关注" >
+                    <StarOutlined />
+                  </Tooltip>
+                  </span>,
+                  <span>
+                    <Tooltip key="edit" title="编辑" >
+                    <EditOutlined />
+                  </Tooltip>
+                  </span>,
+                  <span>
+                    <Tooltip title="分享" key="share">
+                    <ShareAltOutlined />
+                  </Tooltip>
+                  </span>,
+                  <span>
+                    <Dropdown key="ellipsis" overlay={itemMenu}>
+                    <EllipsisOutlined />
+                  </Dropdown>
+                  </span>,
+                ]}
+              >
+                <Card.Meta avatar={<Avatar size="small" src={item.avatar} />} title={item.title} />
+                <div className={styles.cardInfo}>
+                  <CardInfo
+                    activeUser={formatWan(item.activeUser)}
+                    newUser={numeral(item.newUser).format('0,0')}
+                  />
+                </div>
+              </Card>
+            </List.Item>
+          )}
+        />
+      </div>
+    </PageHeaderWrapper>
+
   );
 };
 export default connect(({ listSearchBoards, loading }) => ({

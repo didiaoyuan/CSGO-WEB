@@ -82,6 +82,13 @@ class AccountCenter extends Component {
         userId: JSON.parse(localStorage.getItem('userId')),
       }
     });
+
+    dispatch({
+      type: 'accountCenter/fetchBoards',
+      payload: {
+        userId: String(localStorage.getItem('userId')),
+      }
+    });
   }
 
   onTabChange = key => {

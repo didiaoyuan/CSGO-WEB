@@ -38,7 +38,7 @@ export function formatWan(val) {
 }
 
 const Applications = props => {
-  const { list } = props;
+  const { list,dispatch } = props;
   const itemMenu = (
     <Menu>
       <Menu.Item>
@@ -71,6 +71,15 @@ const Applications = props => {
       </div>
     </div>
   );
+  const handleOnClick = (target)=>{
+    dispatch({
+      type: 'accountCenter/removeBoards',
+      payload: {
+        userId: String(localStorage.getItem('userId')),
+        boardId: String(target),
+      }
+    });
+  }
 
   return (
     <List
@@ -87,19 +96,20 @@ const Applications = props => {
       }}
       dataSource={list}
       renderItem={item => (
-        <List.Item key={item.id}>
+        <List.Item key={item.boardId}>
           <Card
             hoverable
             bodyStyle={{
               paddingBottom: 20,
             }}
             actions={[
-              <Tooltip key="download" title="取消关注">
+              <span onClick={()=>{
+                handleOnClick(item.boardId)
+              }}>
+                <Tooltip key="download" title="取消关注">
                 <StarOutlined />
-              </Tooltip>,
-              <Tooltip title="编辑" key="edit">
-                <EditOutlined />
-              </Tooltip>,
+              </Tooltip>
+              </span>,
               <Tooltip title="分享" key="share">
                 <ShareAltOutlined />
               </Tooltip>,
@@ -108,11 +118,11 @@ const Applications = props => {
               </Dropdown>,
             ]}
           >
-            <Card.Meta avatar={<Avatar size="small" src={item.avatar} />} title={item.title} />
+            <Card.Meta avatar={<Avatar size="small" src={item.boardImg} />} title={item.boardName} />
             <div className={stylesApplications.cardItemContent}>
               <CardInfo
                 activeUser={formatWan(item.activeUser)}
-                newUser={numeral(item.newUser).format('0,0')}
+                newUser={numeral(item.addUser).format('0,0')}
               />
             </div>
           </Card>
@@ -123,5 +133,5 @@ const Applications = props => {
 };
 
 export default connect(({ accountCenter }) => ({
-  list: accountCenter.list,
+  list: accountCenter.boardList,
 }))(Applications);

@@ -122,7 +122,7 @@ export default {
               name: ' 首页',
               icon: 'HomeFilled',
               path: '/listsearcharticles',
-              component: './ListSearchArticles',
+              component: './IndexList',
               authority: ['user', 'admin', 'guest'],
             },
             {
@@ -142,8 +142,8 @@ export default {
             {
               name: '板块列表',
               icon: 'AppstoreFilled',
-              path: '/listsearchboards',
-              component: './ListSearchBoards',
+              path: '/BoardListPage',
+              component: './BoardListPage',
               authority: ['user', 'guest'],
             },
             {
@@ -197,6 +197,7 @@ export default {
               icon: 'CrownFilled',
               component: './Admin',
               authority: ['admin'],
+              hideInMenu:'true',
               routes: [
                 {
                   path: '/admin/sub-page',

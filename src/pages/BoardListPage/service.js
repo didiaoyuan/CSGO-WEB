@@ -5,3 +5,9 @@ export async function queryBoardList(params) {
     params,
   });
 }
+
+export async function addBoardsStar(params) {
+  return request('/my/api/addBoardsStar', {
+    params,
+  });
+}

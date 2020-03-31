@@ -1,7 +1,7 @@
 export default {
   'addtopicpage.basic.title': '基础表单',
   'addtopicpage.basic.description':
-    '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。',
+    '用户发帖编辑',
   'addtopicpage.email.required': '请输入邮箱地址！',
   'addtopicpage.email.wrong-format': '邮箱地址格式错误！',
   'addtopicpage.userName.required': '请输入用户名!',

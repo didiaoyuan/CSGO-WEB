@@ -1,4 +1,5 @@
-import { queryBoardList } from './service';
+import { queryBoardList,addBoardsStar } from './service';
+import { message} from 'antd';
 
 const Model = {
   namespace: 'listSearchBoards',
@@ -12,6 +13,13 @@ const Model = {
         type: 'queryList',
         payload: Array.isArray(response) ? response : [],
       });
+    },
+    *addBoardStar({ payload }, { call }) {
+      console.log("请求参数",payload)
+      const response = yield call(addBoardsStar, payload);
+      if(response.status ==='ok'){
+        message.success("关注成功");
+      }
     },
   },
   reducers: {
