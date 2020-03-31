@@ -159,7 +159,7 @@ export default {
               path: '/accountcenter',
               component: './AccountCenter',
               authority: ['user'],
-              hideInMenu:'true',
+              hideInMenu: 'true',
             },
             {
               name: '个人设置',
@@ -167,7 +167,7 @@ export default {
               path: '/accountsettings',
               component: './AccountSettings',
               authority: ['user'],
-              hideInMenu:'true',
+              hideInMenu: 'true',
             },
             {
               name: '帖子管理',
@@ -188,7 +188,7 @@ export default {
               icon: 'IdcardFilled',
               path: '/listtablelist',
               component: './ListTableList',
-              hideInMenu:'true',
+              hideInMenu: 'true',
               authority: ['admin'],
             },
             {
@@ -206,6 +206,13 @@ export default {
                   authority: ['admin'],
                 },
               ],
+            },
+            {
+              name: '发布内容',
+              icon: 'PlusCircleFilled',
+              path: '/addtopicpage',
+              component: './AddTopicPage',
+              authority:['user'],
             },
             {
               component: './404',

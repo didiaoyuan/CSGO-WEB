@@ -24,6 +24,7 @@ function beforeUpload(file) {
   }
   return isJpgOrPng && isLt2M;
 }
+
 // 删除对话框
 const { confirm } = Modal;
 function showDeleteConfirm() {
@@ -45,6 +46,7 @@ function showDeleteConfirm() {
 
 // 组件
 class ListCardList extends Component {
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -53,7 +55,8 @@ class ListCardList extends Component {
         count: 8,
       },
     });
-  }
+  };
+
   state = {
     visible: false,
     loading: false,
