@@ -37,7 +37,7 @@ class UserListTable extends React.Component {
         dispatch({
           type: 'userListTable/removeUser',
           payload: {
-            userId: record.key,
+            userId: String(record.key),
           }
         });
       },

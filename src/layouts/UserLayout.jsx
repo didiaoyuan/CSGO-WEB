@@ -47,7 +47,7 @@ const UserLayout = props => {
                 <span className={styles.title}>CSGO技术分享</span>
               </Link>
             </div>
-            <div className={styles.desc}>CSGO技术分享改变分享模式</div>
+            <div className={styles.desc}>Content Share GO 技术内容分享改变分享模式</div>
           </div>
           {children}
         </div>

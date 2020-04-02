@@ -6,8 +6,7 @@ export async function queryRule() {
 
 export async function removeRule(params) {
   return request('/my/api/deleteUser', {
-    method: 'POST',
-    data: params,
+     params,
   });
 }
 

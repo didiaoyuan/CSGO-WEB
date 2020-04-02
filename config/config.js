@@ -137,6 +137,7 @@ export default {
               icon: 'FundFilled',
               path: '/dashboardanalysis',
               component: './DashboardAnalysis',
+              authority:['admin'],
             },
             {
               name: ' 工作台',

@@ -33,7 +33,7 @@ class LoadMoreList extends React.Component {
         dispatch({
           type: 'topicListModel/removeTopic',
           payload: {
-            topicId: Number(record.id),
+            topicId: String(record.id),
           }
         });
       },
