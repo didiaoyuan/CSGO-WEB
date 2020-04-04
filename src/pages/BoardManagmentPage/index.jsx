@@ -14,6 +14,7 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
+  console.log("beforeUpload",file)
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
     message.error('You can only upload JPG/PNG file!');
@@ -44,15 +45,20 @@ class ListCardList extends React.Component {
   state = {
     visible: false,
     loading: false,
+    boardImg:"",
   };
 
   handleChange = info => {
+    console.log("handleChange",info);
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
+      this.setState({ imageUrl: info.file.response.filePath, });
+      // this.imageUrl =info.file.response.filePath;
+      this.boardImg = info.file.response.filePath;
       getBase64(info.file.originFileObj, imageUrl =>
         this.setState({
           imageUrl,
@@ -100,7 +106,7 @@ class ListCardList extends React.Component {
       payload: {
         boardName:value.boardName,
         boardDesc:value.boardDesc,
-        boardImg:"http://ww1.sinaimg.cn/large/006rAlqhgy1gdd9t5u3alj30b40b4js3.jpg",
+        boardImg:String(this.boardImg),
       }
     });
   };
@@ -202,9 +208,10 @@ class ListCardList extends React.Component {
                   listType="picture-card"
                   className="avatar-uploader"
                   showUploadList={false}
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  action="/my/api/upload"
                   beforeUpload={beforeUpload}
                   onChange={this.handleChange}
+                  // customRequest={this.customRequest}
                 >
                   {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                 </Upload>
