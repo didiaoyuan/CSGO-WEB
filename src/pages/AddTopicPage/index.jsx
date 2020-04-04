@@ -62,6 +62,7 @@ class AddTopicPage extends React.Component {
 
     state = {
       loading: false,
+      TopicImg:"",
     };
 
     componentDidMount() {
@@ -74,6 +75,7 @@ class AddTopicPage extends React.Component {
   onFinish = values => {
     console.log("onFinish", values)
     values.userId=Number(JSON.parse(localStorage.getItem('userId')));
+    values.topicImg=String(this.TopicImg);
     const { dispatch } = this.props;
     dispatch({
       type: 'addTopicPage/submitRegularForm',
@@ -97,6 +99,8 @@ class AddTopicPage extends React.Component {
     }
     if (info.file.status === 'done') {
       // Get this url from response in real world.
+      this.setState({ imageUrl: info.file.response.filePath, });
+      this.TopicImg =  info.file.response.filePath;
       getBase64(info.file.originFileObj, imageUrl =>
         this.setState({
           imageUrl,
@@ -216,10 +220,9 @@ class AddTopicPage extends React.Component {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            action="/my/api/upload"
             beforeUpload={beforeUpload}
             onChange={this.handleChange}
-            value="http://ww1.sinaimg.cn/large/006rAlqhgy1gdd9t5u3alj30b40b4js3.jpg"
           >
             {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
           </Upload>
